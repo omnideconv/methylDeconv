@@ -13,3 +13,5 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     TCA
+URL: https://github.com/Kani0n/FoPraPackage
+BugReports: https://github.com/Kani0n/FoPraPackage/issues
