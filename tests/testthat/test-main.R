@@ -1,3 +1,3 @@
-test_that("run works", {
+test_that("main works", {
   expect_equal(run_deconvolutions(), "run convolution")
 })

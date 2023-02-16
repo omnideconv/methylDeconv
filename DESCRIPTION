@@ -3,7 +3,7 @@ Title: Runs and compares different Cell type daconvolution algorithms
 Version: 0.0.0.9000
 Authors@R: 
     person("Korbinian", "Pürckhauer", , "korbinian@puerckhauer.net", role = c("aut", "cre"))
-Description: TODO
+Description: runs several Cell type daconvolution algorithms
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,6 +12,10 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
+    EpiDISH,
+    FlowSorted.Blood.EPIC,
+    methylCC,
+    minfi,
     TCA
 URL: https://github.com/Kani0n/FoPraPackage
 BugReports: https://github.com/Kani0n/FoPraPackage/issues
