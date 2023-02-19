@@ -10,7 +10,7 @@ run_epidish(value_matrix)
 \item{value_matrix}{matrix containing methylation profiles}
 }
 \value{
-3x Cell Type proportion matrices
+named list with 3 Cell Type proportion matrices
 }
 \description{
 run EpiDISH

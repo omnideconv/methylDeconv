@@ -12,10 +12,16 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
+    Biobase,
     EpiDISH,
+    FlowSorted.Blood.450k,
     FlowSorted.Blood.EPIC,
+    ggplot2,
     methylCC,
     minfi,
     TCA
 URL: https://github.com/Kani0n/FoPraPackage
 BugReports: https://github.com/Kani0n/FoPraPackage/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true

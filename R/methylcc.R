@@ -11,12 +11,17 @@ run_methylcc <- function(genomic_methyl_set, seed = 1){
   if (class(genomic_methyl_set) == "MethylSet"){
     genomic_methyl_set <- minfi::mapToGenome(genomic_methyl_set)
   }
-  if (class(genomic_methyl_set) != "GenomicMethylSet"){
-    message("input needs to be of class 'MethylSet' or 'GenomicMethylSet' to run methylCC deconvolution.")
+  if (class(genomic_methyl_set) == "GenomicMethylSet"){
+    set.seed(seed)
+    return(methylCC::cell_counts(methylCC::estimatecc(object = genomic_methyl_set)))
+  }
+  if (class(genomic_methyl_set) != "RGChannelSet"){
+    message("input needs to be of class 'MethylSet', 'GenomicMethylSet' or 'RGChannelSet' to run methylCC deconvolution.")
     return(NA)
   }
   set.seed(seed)
-  return(methylCC::cell_counts(methylCC::estimatecc(object = genomic_methyl_set)))
+  est <- methylCC::estimatecc(object = genomic_methyl_set)
+  return(methylCC::cell_counts(est))
 }
 
 #' run methylCC deconvolution using raw files

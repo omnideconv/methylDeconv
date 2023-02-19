@@ -6,10 +6,10 @@
 #' @export
 #'
 #' @examples
-run_flowsortedbloodepic <- function(methyl_set){
+run_flowsortedbloodepic <- function(methyl_set, method="preprocessQuantile"){
   return(FlowSorted.Blood.EPIC::estimateCellCounts2(methyl_set,
                                                     compositeCellType = "Blood",
-                                                    processMethod = "preprocessQuantile",
+                                                    processMethod = method,
                                                     probeSelect = "IDOL",
                                                     cellTypes = c("CD8T",
                                                                   "CD4T",

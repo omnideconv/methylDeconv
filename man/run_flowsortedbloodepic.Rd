@@ -4,7 +4,7 @@
 \alias{run_flowsortedbloodepic}
 \title{run FlowSortedBloodEPIC deconvolution}
 \usage{
-run_flowsortedbloodepic(methyl_set)
+run_flowsortedbloodepic(methyl_set, method = "preprocessQuantile")
 }
 \arguments{
 \item{methyl_set}{minfi::MethylSet}

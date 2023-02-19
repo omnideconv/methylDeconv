@@ -7,5 +7,5 @@
 #'
 #' @examples
 visualize_proportions <- function(prop){
-  boxplot(prop)
+  ggplot2::geom_boxplot(prop)
 }

@@ -4,7 +4,7 @@
 \alias{run_tca}
 \title{run TCA}
 \usage{
-run_tca(value_matrix, meta_data, condition)
+run_tca(value_matrix, meta_data, condition, epidish_output)
 }
 \arguments{
 \item{value_matrix}{matrix containing methylation profiles}

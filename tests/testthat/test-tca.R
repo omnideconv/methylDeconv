@@ -1,3 +1,4 @@
 test_that("TCA works", {
-  expect_equal(2 * 2, 4)
+  test_result <- run_tca(hannum$X, hannum$cov, c("gender","age"), hannum$W)
+  expect_equal(test_result, tca.mdl.hannum[["W"]])
 })

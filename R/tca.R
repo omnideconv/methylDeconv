@@ -8,10 +8,10 @@
 #' @export
 #'
 #' @examples
-run_tca <- function(value_matrix, meta_data, condition){
+run_tca <- function(value_matrix, meta_data, condition, epidish_output){
   message("running TCA deconvolution.")
   meta_data <-  meta_data[,condition, drop = FALSE]
-  if (is.na(value_matrix)){
+  if (any(is.na(value_matrix))){
     message("ommited rows containing missing values for TCA analysis")
     value_matrix <- na.omit(value_matrix)
   }
@@ -20,7 +20,7 @@ run_tca <- function(value_matrix, meta_data, condition){
     value_matrix <- value_matrix[rowVars(value_matrix) >= 1e-08,]
   }
   tca_result <- TCA::tca(X = value_matrix,
-                      W = TCA::BloodFrac.RPC.m,
+                      W = epidish_output,
                       C1 = meta_data,
                       )
   return(tca_result[["W"]])
