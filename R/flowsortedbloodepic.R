@@ -16,7 +16,7 @@ run_flowsortedbloodepic <- function(methyl_set, method="preprocessQuantile"){
                                                                   "NK",
                                                                   "Bcell",
                                                                   "Mono",
-                                                                  "Neu")))$prop
+                                                                  "Neu"))$prop)
 }
 
 #' run FlowSortedBloodEPIC deconvolution using raw files

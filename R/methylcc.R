@@ -20,8 +20,7 @@ run_methylcc <- function(genomic_methyl_set, seed = 1){
     return(NA)
   }
   set.seed(seed)
-  est <- methylCC::estimatecc(object = genomic_methyl_set)
-  return(methylCC::cell_counts(est))
+  return(methylCC::cell_counts(methylCC::estimatecc(object = genomic_methyl_set)))
 }
 
 #' run methylCC deconvolution using raw files
