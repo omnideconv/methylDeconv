@@ -7,6 +7,9 @@
 #'
 #' @examples
 run_epidish <- function(value_matrix){
+  if (all(is.na(value_matrix))) {
+    return(NA)
+  }
   message("running EpiDISH deconvolutions:")
   rpc_result <- run_epidish_rpc(value_matrix)
   cbs_result <- run_epidish_cbs(value_matrix)
