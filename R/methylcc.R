@@ -11,6 +11,7 @@ run_methylcc <- function(obj, seed=1){
   if (length(obj) == 1) {
     return(NA)
   }
+  library(FlowSorted.Blood.450k)
   if (class(obj) == "MethylSet"){
     obj <- minfi::mapToGenome(obj)
   }
@@ -23,8 +24,7 @@ run_methylcc <- function(obj, seed=1){
     return(NA)
   }
   set.seed(seed)
-  est <- methylCC::estimatecc(object = obj)
-  return(methylCC::cell_counts(est))
+  return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
 }
 
 #' run methylCC deconvolution using raw files
