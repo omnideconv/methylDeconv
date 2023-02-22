@@ -7,20 +7,23 @@
 #' @export
 #'
 #' @examples
-run_methylcc <- function(genomic_methyl_set, seed = 1){
-  if (class(genomic_methyl_set) == "MethylSet"){
-    genomic_methyl_set <- minfi::mapToGenome(genomic_methyl_set)
+run_methylcc <- function(obj, seed=1){
+  if (length(obj) == 1) {
+    return(NA)
   }
-  if (class(genomic_methyl_set) == "GenomicMethylSet"){
+  if (class(obj) == "MethylSet"){
+    obj <- minfi::mapToGenome(obj)
+  }
+  if (class(obj) == "GenomicMethylSet"){
     set.seed(seed)
-    return(methylCC::cell_counts(methylCC::estimatecc(object = genomic_methyl_set)))
+    return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
   }
-  if (class(genomic_methyl_set) != "RGChannelSet"){
+  if (class(obj) != "RGChannelSet"){
     message("input needs to be of class 'MethylSet', 'GenomicMethylSet' or 'RGChannelSet' to run methylCC deconvolution.")
     return(NA)
   }
   set.seed(seed)
-  return(methylCC::cell_counts(methylCC::estimatecc(object = genomic_methyl_set)))
+  return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
 }
 
 #' run methylCC deconvolution using raw files
@@ -34,6 +37,12 @@ run_methylcc <- function(genomic_methyl_set, seed = 1){
 #'
 #' @examples
 run_methylcc_raw <- function(meth, unmeth, seed = 1){
+  if (all(is.na(meth))) {
+    return(NA)
+  }
+  if (all(is.na(unmeth))) {
+    return(NA)
+  }
   methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
   return(run_methylcc(methyl_set, seed = seed))
 }

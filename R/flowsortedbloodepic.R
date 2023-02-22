@@ -6,8 +6,11 @@
 #' @export
 #'
 #' @examples
-run_flowsortedbloodepic <- function(methyl_set, method="preprocessQuantile"){
-  return(FlowSorted.Blood.EPIC::estimateCellCounts2(methyl_set,
+run_flowsortedbloodepic <- function(obj, method="preprocessQuantile"){
+  if (length(obj) == 1) {
+    return(NA)
+  }
+  return(FlowSorted.Blood.EPIC::estimateCellCounts2(obj,
                                                     compositeCellType = "Blood",
                                                     processMethod = method,
                                                     probeSelect = "IDOL",
@@ -29,6 +32,12 @@ run_flowsortedbloodepic <- function(methyl_set, method="preprocessQuantile"){
 #'
 #' @examples
 run_flowsortedbloodepic_raw <- function(meth, unmeth){
+  if (all(is.na(meth))) {
+    return(NA)
+  }
+  if (all(is.na(unmeth))) {
+    return(NA)
+  }
   methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
   return(run_flowsortedbloodepic(methyl_set))
 }

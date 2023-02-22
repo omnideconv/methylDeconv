@@ -17,6 +17,7 @@ Imports:
     FlowSorted.Blood.450k,
     FlowSorted.Blood.EPIC,
     ggplot2,
+    matrixStats,
     methylCC,
     minfi,
     TCA
