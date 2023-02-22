@@ -23,7 +23,8 @@ run_methylcc <- function(obj, seed=1){
     return(NA)
   }
   set.seed(seed)
-  return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
+  est <- methylCC::estimatecc(object = obj)
+  return(methylCC::cell_counts(est))
 }
 
 #' run methylCC deconvolution using raw files
