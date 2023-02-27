@@ -9,22 +9,24 @@
 #' @examples
 run_methylcc <- function(obj, seed=1){
   if (length(obj) == 1) {
-    return(NA)
+    return(NULL)
   }
   library(FlowSorted.Blood.450k)
-  if (class(obj) == "MethylSet"){
+  if (is(obj, "MethylSet")){
     obj <- minfi::mapToGenome(obj)
   }
-  if (class(obj) == "GenomicMethylSet"){
+  if (is(obj, "GenomicMethylSet")){
     set.seed(seed)
-    return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
+    return(as.data.frame(
+      methylCC::cell_counts(methylCC::estimatecc(object = obj))))
   }
-  if (class(obj) != "RGChannelSet"){
+  if (!is(obj, "RGChannelSet")){
     message("input needs to be of class 'MethylSet', 'GenomicMethylSet' or 'RGChannelSet' to run methylCC deconvolution.")
-    return(NA)
+    return(NULL)
   }
   set.seed(seed)
-  return(methylCC::cell_counts(methylCC::estimatecc(object = obj)))
+  return(as.data.frame(
+    methylCC::cell_counts(methylCC::estimatecc(object = obj))))
 }
 
 #' run methylCC deconvolution using raw files
@@ -39,10 +41,10 @@ run_methylcc <- function(obj, seed=1){
 #' @examples
 run_methylcc_raw <- function(meth, unmeth, seed = 1){
   if (all(is.na(meth))) {
-    return(NA)
+    return(NULL)
   }
   if (all(is.na(unmeth))) {
-    return(NA)
+    return(NULL)
   }
   methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
   return(run_methylcc(methyl_set, seed = seed))

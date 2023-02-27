@@ -5,22 +5,22 @@
 #'
 #' @examples
 run_deconvolutions <- function(obj=NA, meth=NA, unmeth=NA, meta=NA, condition=NA, seed=1){
-  result_epidish <- NA
-  result_tca <- NA
-  result_flowsortedbloodepic <- NA
-  result_methylcc <- NA
+  result_epidish <- NULL
+  result_tca <- NULL
+  result_flowsortedbloodepic <- NULL
+  result_methylcc <- NULL
   if (missing(obj)) {
     if (missing(meth) | missing(unmeth)) {
       message("if no object is given, 'meth' and 'unmeth' need to be provided.")
-      return(NA)
+      return(NULL)
     }
     if (!is.matrix(meth)) {
       message("'meth' needs to be of class 'matix'.")
-      return(NA)
+      return(NULL)
     }
     if (!is.matrix(unmeth)) {
       message("'unmeth' needs to be of class 'matix'.")
-      return(NA)
+      return(NULL)
     }
     result_flowsortedbloodepic <- run_flowsortedbloodepic_raw(meth, unmeth)
     result_methylcc <- run_methylcc_raw(meth, unmeth)
@@ -36,28 +36,28 @@ run_deconvolutions <- function(obj=NA, meth=NA, unmeth=NA, meta=NA, condition=NA
     if (!missing(meth) & !missing(unmeth)) {
       if (!is.matrix(meth)) {
         message("'meth' needs to be of class 'matix'.")
-        return(NA)
+        return(NULL)
       }
       if (!is.matrix(unmeth)) {
         message("'unmeth' needs to be of class 'matix'.")
-        return(NA)
+        return(NULL)
       }
       result_flowsortedbloodepic <- run_flowsortedbloodepic_raw(meth, unmeth)
       result_methylcc <- run_methylcc_raw(meth, unmeth, seed)
     }
-  } else if (class(obj) == "MethylSet") {
+  } else if (is(obj, "MethylSet")) {
     result_flowsortedbloodepic <- run_flowsortedbloodepic(obj)
     result_methylcc <- run_methylcc(obj, seed)
     if (!missing(meth) & !missing(unmeth)) {
       message("'meth' and 'unmeth' will be ignored, since 'obj' is of class 'MethylSet'.")
     }
-  } else if (class(obj) == "GenomicMethylSet") {
+  } else if (is(obj, "GenomicMethylSet")) {
     result_flowsortedbloodepic <- run_flowsortedbloodepic(obj)
     result_methylcc <- run_methylcc(obj, seed)
     if (!missing(meth) & !missing(unmeth)) {
       message("'meth' and 'unmeth' will be ignored, since 'obj' is of class 'GenomicMethylSet'.")
     }
-  } else if (class(obj) == "RGChannelSet") {
+  } else if (is(obj, "RGChannelSet")) {
     result_flowsortedbloodepic <- run_flowsortedbloodepic(obj, method = "preprocessNoob")
     result_methylcc <- run_methylcc(obj, seed)
     if (!missing(meth) & !missing(unmeth)) {
@@ -65,7 +65,7 @@ run_deconvolutions <- function(obj=NA, meth=NA, unmeth=NA, meta=NA, condition=NA
     }
   } else {
     message("'obj' needs to be of class 'matrix', 'MethylSet', 'GenomicMethylSet' or 'RGChannelSet'.")
-    return(NA)
+    return(NULL)
   }
   return(list(epidish=result_epidish,
               tca=result_tca,

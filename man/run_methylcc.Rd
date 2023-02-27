@@ -4,12 +4,12 @@
 \alias{run_methylcc}
 \title{run methylCC deconvolution}
 \usage{
-run_methylcc(genomic_methyl_set, seed = 1)
+run_methylcc(obj, seed = 1)
 }
 \arguments{
-\item{genomic_methyl_set}{minfi::MethylSet or minfi::GenomicMethylSet}
-
 \item{seed}{numeric}
+
+\item{genomic_methyl_set}{minfi::MethylSet or minfi::GenomicMethylSet}
 }
 \value{
 Cell Type proportion matrix

@@ -4,7 +4,14 @@
 \alias{run_deconvolutions}
 \title{Main function}
 \usage{
-run_deconvolutions()
+run_deconvolutions(
+  obj = NA,
+  meth = NA,
+  unmeth = NA,
+  meta = NA,
+  condition = NA,
+  seed = 1
+)
 }
 \value{
 A String

@@ -8,18 +8,19 @@
 #' @examples
 run_flowsortedbloodepic <- function(obj, method="preprocessQuantile"){
   if (length(obj) == 1) {
-    return(NA)
+    return(NULL)
   }
-  return(FlowSorted.Blood.EPIC::estimateCellCounts2(obj,
-                                                    compositeCellType = "Blood",
-                                                    processMethod = method,
-                                                    probeSelect = "IDOL",
-                                                    cellTypes = c("CD8T",
-                                                                  "CD4T",
-                                                                  "NK",
-                                                                  "Bcell",
-                                                                  "Mono",
-                                                                  "Neu"))$prop)
+  return(as.data.frame(
+    FlowSorted.Blood.EPIC::estimateCellCounts2(obj,
+                                               compositeCellType = "Blood",
+                                               processMethod = method,
+                                               probeSelect = "IDOL",
+                                               cellTypes = c("CD8T",
+                                                             "CD4T",
+                                                             "NK",
+                                                             "Bcell",
+                                                             "Mono",
+                                                             "Neu"))$prop))
 }
 
 #' run FlowSortedBloodEPIC deconvolution using raw files
@@ -33,10 +34,10 @@ run_flowsortedbloodepic <- function(obj, method="preprocessQuantile"){
 #' @examples
 run_flowsortedbloodepic_raw <- function(meth, unmeth){
   if (all(is.na(meth))) {
-    return(NA)
+    return(NULL)
   }
   if (all(is.na(unmeth))) {
-    return(NA)
+    return(NULL)
   }
   methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
   return(run_flowsortedbloodepic(methyl_set))

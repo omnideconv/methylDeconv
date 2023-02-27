@@ -10,13 +10,13 @@
 #' @examples
 run_tca <- function(value_matrix, meta_data, condition, epidish_output){
   if (all(is.na(value_matrix))) {
-    return(NA)
+    return(NULL)
   }
   if (all(is.na(meta_data))) {
-    return(NA)
+    return(NULL)
   }
   if (all(is.na(epidish_output))) {
-    return(NA)
+    return(NULL)
   }
   message("running TCA deconvolution.")
   meta_data <-  meta_data[,condition, drop = FALSE]
@@ -32,5 +32,5 @@ run_tca <- function(value_matrix, meta_data, condition, epidish_output){
                       W = epidish_output,
                       C1 = meta_data,
                       )
-  return(tca_result[["W"]])
+  return(as.data.frame(tca_result[["W"]]))
 }
