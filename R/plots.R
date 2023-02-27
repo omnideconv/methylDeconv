@@ -11,7 +11,7 @@ visualize_result <- function(result){
     message("this function is for visualizing the this packages result object.")
   }
   if (!is.null(result$epidish)) {
-    p1 <- visualize_proportions(result$epidish$rpc)
+    p1 <- ifelse(is.null(result$epidish$rpc), NULL, visualize_proportions(result$epidish$rpc))
     p2 <- visualize_proportions(result$epidish$cbs)
     p3 <- visualize_proportions(result$epidish$cp)
   }
