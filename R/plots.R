@@ -30,16 +30,17 @@ visualize_result <- function(result){
     result$flowsortedbloodepic$Bcell <- NULL
     result$flowsortedbloodepic$Neutro <- result$flowsortedbloodepic$Neu
     result$flowsortedbloodepic$Neu <- NULL
-    df <- bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
+    df <- dplyr::bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
   }
   if (!is.null(result$methylcc)) {
     result$methylcc$B <- result$methylcc$Bcell
     result$methylcc$Bcell <- NULL
-    df <- bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
+    df <- dplyr::bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
   }
   ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
     ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
-    ggplot2::facet_wrap(~method) + labs(x = "Cell Type", y = "proportions") +
+    ggplot2::facet_wrap(~method) +
+    ggplot2::labs(x = "Cell Type", y = "proportions") +
     ggplot2::theme(legend.position = "none")
 }
 
@@ -68,9 +69,9 @@ compare_results <- function(res1, res2) {
     df_temp <- cbind(df_temp, CT = c(CT))
     df_final <- rbind(df_final, df_temp)
   }
-  ggplot(df_final, aes(x=res1, y=res2, color=CT)) +
-    geom_point() +
-    geom_abline() +
-    facet_wrap(~CT) +
+  ggplot2::ggplot(df_final, ggplot2::aes(x=res1, y=res2, color=CT)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_abline() +
+    ggplot2::facet_wrap(~CT) +
     ggplot2::theme(legend.position = "none")
 }
