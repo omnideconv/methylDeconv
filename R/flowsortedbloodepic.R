@@ -10,7 +10,7 @@ run_flowsortedbloodepic <- function(obj, method="preprocessQuantile"){
   if (length(obj) == 1) {
     return(NULL)
   }
-  return(as.data.frame(
+  res <- as.data.frame(
     FlowSorted.Blood.EPIC::estimateCellCounts2(obj,
                                                compositeCellType = "Blood",
                                                processMethod = method,
@@ -20,7 +20,12 @@ run_flowsortedbloodepic <- function(obj, method="preprocessQuantile"){
                                                              "NK",
                                                              "Bcell",
                                                              "Mono",
-                                                             "Neu"))$prop))
+                                                             "Neu"))$prop)
+  res$B <- res$Bcell
+  res$Bcell <- NULL
+  res$Neutro <- res$Neu
+  res$Neu <- NULL
+  return(res)
 }
 
 #' run FlowSortedBloodEPIC deconvolution using raw files

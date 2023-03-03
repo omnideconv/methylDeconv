@@ -6,9 +6,10 @@
 #' @export
 #'
 #' @examples
-visualize_result <- function(result){
+visualize_results <- function(result){
   if (!is.list(result)) {
     message("this function is for visualizing the this packages result object.")
+    return()
   }
   df <- data.frame()
   if (!is.null(result$epidish)) {
@@ -26,15 +27,9 @@ visualize_result <- function(result){
     df <- rbind(df, cbind(result$tca, method = c("TCA")))
   }
   if (!is.null(result$flowsortedbloodepic)) {
-    result$flowsortedbloodepic$B <- result$flowsortedbloodepic$Bcell
-    result$flowsortedbloodepic$Bcell <- NULL
-    result$flowsortedbloodepic$Neutro <- result$flowsortedbloodepic$Neu
-    result$flowsortedbloodepic$Neu <- NULL
     df <- dplyr::bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
   }
   if (!is.null(result$methylcc)) {
-    result$methylcc$B <- result$methylcc$Bcell
-    result$methylcc$Bcell <- NULL
     df <- dplyr::bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
   }
   ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
@@ -42,6 +37,33 @@ visualize_result <- function(result){
     ggplot2::facet_wrap(~method) +
     ggplot2::labs(x = "Cell Type", y = "proportions") +
     ggplot2::theme(legend.position = "none")
+}
+
+
+visualize_result_box <- function(result, CT='B') {
+  if (!is.data.frame(result)) {
+    message("this function is for visualizing one of the this packages result data frames.")
+    return()
+  }
+  df <- as.data.frame(result[,CT])
+  colnames(df) <- c("value")
+  df <- cbind(df, CT = c(CT))
+  ggplot2::ggplot(data = df, ggplot2::aes(x=CT,y=value)) +
+    ggplot2::geom_boxplot(ggplot2::aes(fill=CT)) +
+    ggplot2::labs(y = "proportions") +
+    ggplot2::theme(legend.position = "none")
+}
+
+
+visualize_result_bar <- function(result) {
+  if (!is.data.frame(result)) {
+    message("this function is for visualizing one of the this packages result data frames.")
+    return()
+  }
+  ggplot2::ggplot(df, ggplot2::aes(x = sample, y = value, fill = variable)) +
+    ggplot2::geom_col(position = "fill") +
+    ggplot2::xlab("sample") +
+    ggplot2::ylab("Cell Type probability distribution")
 }
 
 

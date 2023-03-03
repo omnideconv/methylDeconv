@@ -13,7 +13,6 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     Biobase,
-    cowplot,
     dplyr,
     EpiDISH,
     FlowSorted.Blood.450k,
