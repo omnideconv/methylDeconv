@@ -3,6 +3,7 @@
 #' @param value_matrix matrix containing methylation profiles
 #' @param meta_data matrix containing information about samples in 'value_matrix'
 #' @param condition collumn name of 'meta_data' either complex or numeric
+#' @param epidish_output
 #'
 #' @return Cell Type proportion matrix
 #' @export

@@ -1,6 +1,7 @@
 #' run FlowSortedBloodEPIC deconvolution
 #'
-#' @param methyl_set minfi::MethylSet
+#' @param obj minfi::MethylSet, minfi::GenomicMethylSet or minfi::RGChannelSet
+#' @param method "preprocessQuantile" or "preprocessNoob"
 #'
 #' @return Cell Type proportion matrix
 #' @export
