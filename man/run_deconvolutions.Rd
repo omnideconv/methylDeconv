@@ -13,6 +13,9 @@ run_deconvolutions(
   seed = 1
 )
 }
+\arguments{
+\item{seed}{}
+}
 \value{
 A String
 }

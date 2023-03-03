@@ -1,5 +1,12 @@
 #' Main function
 #'
+#' @param obj
+#' @param meth
+#' @param unmeth
+#' @param meta
+#' @param condition
+#' @param seed
+#'
 #' @return A String
 #' @export
 #'

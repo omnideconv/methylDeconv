@@ -18,6 +18,8 @@ Imports:
     FlowSorted.Blood.450k,
     FlowSorted.Blood.EPIC,
     ggplot2,
+    IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
+    IlluminaHumanMethylationEPICmanifest,
     matrixStats,
     methylCC,
     minfi,

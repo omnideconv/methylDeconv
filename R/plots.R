@@ -40,6 +40,15 @@ visualize_results <- function(result){
 }
 
 
+#' Title
+#'
+#' @param result
+#' @param CT
+#'
+#' @return
+#' @export
+#'
+#' @examples
 visualize_result_box <- function(result, CT='B') {
   if (!is.data.frame(result)) {
     message("this function is for visualizing one of the this packages result data frames.")
@@ -55,6 +64,14 @@ visualize_result_box <- function(result, CT='B') {
 }
 
 
+#' Title
+#'
+#' @param result
+#'
+#' @return
+#' @export
+#'
+#' @examples
 visualize_result_bar <- function(result) {
   if (!is.data.frame(result)) {
     message("this function is for visualizing one of the this packages result data frames.")
@@ -67,6 +84,15 @@ visualize_result_bar <- function(result) {
 }
 
 
+#' Title
+#'
+#' @param res1
+#' @param res2
+#'
+#' @return
+#' @export
+#'
+#' @examples
 compare_results <- function(res1, res2) {
   if (is.null(res1) | is.null(res2)) {
     message("one of the inputs is NULL.")
