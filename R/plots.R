@@ -77,7 +77,8 @@ visualize_result_bar <- function(result) {
     message("this function is for visualizing one of the this packages result data frames.")
     return()
   }
-  ggplot2::ggplot(df, ggplot2::aes(x = sample, y = value, fill = variable)) +
+  result$sample <- rownames(result)
+  ggplot2::ggplot(reshape::melt(result), ggplot2::aes(x = sample, y = value, fill = variable)) +
     ggplot2::geom_col(position = "fill") +
     ggplot2::xlab("sample") +
     ggplot2::ylab("Cell Type probability distribution")
@@ -96,6 +97,10 @@ visualize_result_bar <- function(result) {
 compare_results <- function(res1, res2) {
   if (is.null(res1) | is.null(res2)) {
     message("one of the inputs is NULL.")
+    return()
+  }
+  if (!is.data.frame(res1) | !is.data.frame(res2)) {
+    message("this function is for visualizing two of the this packages result data frames.")
     return()
   }
   df <- merge(res1, res2, by=0, all = T)
