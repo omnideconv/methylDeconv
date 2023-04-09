@@ -7,36 +7,42 @@
 #'
 #' @examples
 visualize_results <- function(result){
-  if (!is.list(result)) {
+  if (is.data.frame(result)){
+    ggplot2::ggplot(data = reshape::melt(result), ggplot2::aes(x=variable,y=value)) +
+      ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
+      ggplot2::labs(x = "Cell Type", y = "proportions") +
+      ggplot2::theme(legend.position = "none")
+  } else if (!is.list(result)) {
     message("this function is for visualizing the this packages result object.")
     return()
-  }
-  df <- data.frame()
-  if (!is.null(result$epidish)) {
-    if (!is.null(result$epidish$rpc)) {
-      df <- rbind(df, cbind(result$epidish$rpc, method = c("EpiDISH-RPC")))
+  } else {
+    df <- data.frame()
+    if (!is.null(result$epidish)) {
+      if (!is.null(result$epidish$rpc)) {
+        df <- rbind(df, cbind(result$epidish$rpc, method = c("EpiDISH-RPC")))
+      }
+      if (!is.null(result$epidish$cbs)) {
+        df <- rbind(df, cbind(result$epidish$cbs, method = c("EpiDISH-CBS")))
+      }
+      if (!is.null(result$epidish$cp)) {
+        df <- rbind(df, cbind(result$epidish$cp, method = c("EpiDISH-CP")))
+      }
     }
-    if (!is.null(result$epidish$cbs)) {
-      df <- rbind(df, cbind(result$epidish$cbs, method = c("EpiDISH-CBS")))
+    if (!is.null(result$tca)) {
+      df <- rbind(df, cbind(result$tca, method = c("TCA")))
     }
-    if (!is.null(result$epidish$cp)) {
-      df <- rbind(df, cbind(result$epidish$cp, method = c("EpiDISH-CP")))
+    if (!is.null(result$flowsortedbloodepic)) {
+      df <- dplyr::bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
     }
+    if (!is.null(result$methylcc)) {
+      df <- dplyr::bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
+    }
+    ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
+      ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
+      ggplot2::facet_wrap(~method) +
+      ggplot2::labs(x = "Cell Type", y = "proportions") +
+      ggplot2::theme(legend.position = "none")
   }
-  if (!is.null(result$tca)) {
-    df <- rbind(df, cbind(result$tca, method = c("TCA")))
-  }
-  if (!is.null(result$flowsortedbloodepic)) {
-    df <- dplyr::bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
-  }
-  if (!is.null(result$methylcc)) {
-    df <- dplyr::bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
-  }
-  ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
-    ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
-    ggplot2::facet_wrap(~method) +
-    ggplot2::labs(x = "Cell Type", y = "proportions") +
-    ggplot2::theme(legend.position = "none")
 }
 
 
