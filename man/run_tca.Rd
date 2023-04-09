@@ -12,6 +12,8 @@ run_tca(value_matrix, meta_data, condition, epidish_output)
 \item{meta_data}{matrix containing information about samples in 'value_matrix'}
 
 \item{condition}{collumn name of 'meta_data' either complex or numeric}
+
+\item{epidish_output}{}
 }
 \value{
 Cell Type proportion matrix

@@ -7,7 +7,9 @@
 run_flowsortedbloodepic(obj, method = "preprocessQuantile")
 }
 \arguments{
-\item{methyl_set}{minfi::MethylSet}
+\item{obj}{minfi::MethylSet, minfi::GenomicMethylSet or minfi::RGChannelSet}
+
+\item{method}{"preprocessQuantile" or "preprocessNoob"}
 }
 \value{
 Cell Type proportion matrix

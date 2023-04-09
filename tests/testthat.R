@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(FoPraPackage)
+library(MeDeUI)
 
-test_check("FoPraPackage")
+test_check("MeDeUI")
