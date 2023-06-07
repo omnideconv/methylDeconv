@@ -1,8 +1,9 @@
-Package: MeDeUI
-Title: Runs and compares different Cell type daconvolution algorithms
+Package: methylDeconv
+Title: Unified access to DNA methylation based cell-type deconvolution methods
 Version: 0.0.0.9000
 Authors@R: 
     person("Korbinian", "Pürckhauer", , "korbinian@puerckhauer.net", role = c("aut", "cre"))
+    person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = c("aut", "cre"))
 Description: runs several Cell type daconvolution algorithms.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -25,8 +26,8 @@ Imports:
     minfi,
     reshape,
     TCA
-URL: https://github.com/Kani0n/MeDeUI
-BugReports: https://github.com/Kani0n/MeDeUI/issues
+URL: https://github.com/biomedbigdata/methylDeconv
+BugReports: https://github.com/biomedbigdata/methylDeconv/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
