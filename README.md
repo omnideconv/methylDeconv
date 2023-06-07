@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MeDeUI
+# methylDeconv
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of MeDeUI is to …
+The goal of methylDeconv is to …
 
 ## Installation
 
@@ -15,7 +15,7 @@ You can install the development version of MeDeUI from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("Kani0n/MeDeUI")
+devtools::install_github("biomedbigdata/methylDeconv")
 ```
 
 ## Example
@@ -23,6 +23,6 @@ devtools::install_github("Kani0n/MeDeUI")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(MeDeUI)
+library(methylDeconv)
 ## basic example code
 ```
