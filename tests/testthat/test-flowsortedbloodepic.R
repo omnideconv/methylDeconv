@@ -1,4 +1,7 @@
 test_that("FlowSortedBloodEPIC works", {
+  requireNamespace("IlluminaHumanMethylationEPICanno.ilm10b4.hg19", quietly = TRUE)
+  requireNamespace("IlluminaHumanMethylationEPICmanifest", quietly = TRUE)
+
   FlowSorted.Blood.EPIC <- FlowSorted.Blood.EPIC::libraryDataGet('FlowSorted.Blood.EPIC')
   RGsetTargets <- FlowSorted.Blood.EPIC[,FlowSorted.Blood.EPIC$CellType == "MIX"]
   sampleNames(RGsetTargets) <- paste(RGsetTargets$CellType,

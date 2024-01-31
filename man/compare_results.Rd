@@ -2,13 +2,15 @@
 % Please edit documentation in R/plots.R
 \name{compare_results}
 \alias{compare_results}
-\title{Title}
+\title{Show scatterplot that compares two results}
 \usage{
 compare_results(res1, res2)
 }
 \arguments{
-\item{res2}{}
+\item{res1}{result1}
+
+\item{res2}{result2}
 }
 \description{
-Title
+Show scatterplot that compares two results
 }

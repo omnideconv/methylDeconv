@@ -1,33 +1,32 @@
 Package: methylDeconv
-Title: Unified access to DNA methylation based cell-type deconvolution methods
+Title: Unified access to DNA methylation based cell-type deconvolution
+    methods
 Version: 0.0.0.9000
 Authors@R: 
-    person("Korbinian", "Pürckhauer", , "korbinian@puerckhauer.net", role = c("aut", "cre"))
     person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = c("aut", "cre"))
-Description: runs several Cell type daconvolution algorithms.
+Description: runs several cell type deconvolution algorithms.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-Imports: 
-    Biobase,
+URL: https://github.com/biomedbigdata/methylDeconv
+BugReports: https://github.com/biomedbigdata/methylDeconv/issues
+Depends:
+    R (>= 2.10)
+Imports:
     dplyr,
     EpiDISH,
-    FlowSorted.Blood.450k,
     FlowSorted.Blood.EPIC,
     ggplot2,
-    IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
-    IlluminaHumanMethylationEPICmanifest,
     matrixStats,
     methylCC,
     minfi,
     reshape,
     TCA
-URL: https://github.com/biomedbigdata/methylDeconv
-BugReports: https://github.com/biomedbigdata/methylDeconv/issues
-Depends: 
-    R (>= 2.10)
-LazyData: true
+Suggests: 
+    Biobase,
+    FlowSorted.Blood.450k,
+    IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
+    IlluminaHumanMethylationEPICmanifest,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

@@ -8,10 +8,11 @@
 #'
 #' @examples
 run_methylcc <- function(obj, seed=1){
+  require(FlowSorted.Blood.450k)
+
   if (length(obj) == 1) {
     return(NULL)
   }
-  library(FlowSorted.Blood.450k)
   if (is(obj, "MethylSet")){
     obj <- minfi::mapToGenome(obj)
   }

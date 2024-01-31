@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(MeDeUI)
+library(methylDeconv)
 
-test_check("MeDeUI")
+test_check("methylDeconv")

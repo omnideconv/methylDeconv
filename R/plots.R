@@ -91,10 +91,10 @@ visualize_result_bar <- function(result) {
 }
 
 
-#' Title
+#' Show scatterplot that compares two results
 #'
-#' @param res1
-#' @param res2
+#' @param res1 result1 
+#' @param res2 result2
 #'
 #' @return
 #' @export
