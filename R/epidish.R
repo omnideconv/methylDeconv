@@ -6,58 +6,47 @@
 #' @export
 #'
 #' @examples
-run_epidish <- function(value_matrix){
-  if (all(is.na(value_matrix))) {
-    return(NULL)
+run_epidish <- function(meth, unmeth, mode=c('RPC', 'CBS', 'CP'), 
+                        reference=c('blood','breast','epithelial'), 
+                        maxit = 50, nu.v = c(0.25, 0.5, 0.7), 
+                        constraint = c("inequality", "equality")){
+  require(EpiDISH)
+  
+  check_input(meth, unmeth)
+  beta_matrix <- create_beta(meth, unmeth)
+  
+  if (length(mode) > 1) {
+    mode <- mode[1]
+    message(paste0(mode, " was chosen because multiple values were supplied for \"mode\""))
   }
-  message("running EpiDISH deconvolutions:")
-  rpc_result <- run_epidish_rpc(value_matrix)
-  cbs_result <- run_epidish_cbs(value_matrix)
-  cp_result <- run_epidish_cp(value_matrix)
-  return(list(rpc=rpc_result, cbs=cbs_result, cp=cp_result))
+  if (length(reference) > 1) {
+    reference <- reference[1]
+    message(paste0(reference, " was chosen because multiple values were supplied for \"reference\""))
+  }
+  message(paste0("Starting EpiDISH deconvolution with mode ", mode, " ..."))
+
+  result_epidish <- switch (reference,
+    'blood' = EpiDISH::epidish(beta.m = beta_matrix,
+                               ref.m = EpiDISH::centDHSbloodDMC.m,
+                               method = mode,
+                               maxit = maxit,
+                               nu.v = nu.v,
+                               constraint = constraint),
+    'breast' = EpiDISH::epidish(beta.m = beta_matrix,
+                                ref.m = EpiDISH::centEpiFibFatIC.m,
+                                method = mode,
+                                maxit = maxit,
+                                nu.v = nu.v,
+                                constraint = constraint),
+    'epithelial' = EpiDISH::epidish(beta.m = beta_matrix,
+                                    ref.m = EpiDISH::centEpiFibFatIC.m,
+                                    method = mode,
+                                    maxit = maxit,
+                                    nu.v = nu.v,
+                                    constraint = constraint)
+  )
+
+  return(result_epidish)
 }
 
-#' Title
-#'
-#' @param value_matrix matrix containing methylation profiles
-#'
-#' @return Cell Type proportion matrix
-#' @export
-#'
-#' @examples
-run_epidish_rpc <- function(value_matrix){
-  message("1. using 'Robust Partial Correlations'.")
-  return(as.data.frame(EpiDISH::epidish(beta.m = value_matrix,
-                                        ref.m = EpiDISH::centDHSbloodDMC.m,
-                                        method = 'RPC')$estF))
-}
 
-#' Title
-#'
-#' @param value_matrix matrix containing methylation profiles
-#'
-#' @return Cell Type proportion matrix
-#' @export
-#'
-#' @examples
-run_epidish_cbs <- function(value_matrix){
-  message("2. using 'CIBERSORT'.")
-  return(as.data.frame(EpiDISH::epidish(beta.m = value_matrix,
-                                        ref.m = EpiDISH::centDHSbloodDMC.m,
-                                        method = 'CBS')$estF))
-}
-
-#' Title
-#'
-#' @param value_matrix matrix containing methylation profiles
-#'
-#' @return Cell Type proportion matrix
-#' @export
-#'
-#' @examples
-run_epidish_cp <- function(value_matrix){
-  message("3. using 'Constrained Projection '.")
-  return(as.data.frame(EpiDISH::epidish(beta.m = value_matrix,
-                                        ref.m = EpiDISH::centDHSbloodDMC.m,
-                                        method = 'CP')$estF))
-}
