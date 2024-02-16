@@ -32,3 +32,23 @@ create_beta <- function(meth, unmeth){
   
   return(minfi::getBeta(ratio_set))
 }
+
+
+#' Normalize deconvolution result
+#'
+#' @param deconv_result The original deconvolution result
+#'
+#' @return A matrix with the rowsums of one and no negative values
+#' @export
+normalize_deconv_results <- function(deconv_result) {
+  celltypes <- colnames(deconv_result)
+  deconv_result[deconv_result < 0] <- 0
+  deconv_result <- t(apply(deconv_result, 1, function(row) row / sum(row)))
+  # Apply returns a vector when only supplied with one celltype. To counter it and return a matrix
+  # and not a vector, this operation is needed
+  if (length(celltypes) == 1) {
+    deconv_result <- t(deconv_result)
+    colnames(deconv_result) <- celltypes
+  }
+  return(deconv_result)
+}

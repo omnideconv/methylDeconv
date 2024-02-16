@@ -1,81 +1,117 @@
-#' Main function
+
+#' List of supported deconvolution methods
 #'
-#' @param obj
-#' @param meth
-#' @param unmeth
-#' @param meta
-#' @param condition
-#' @param seed
+#' The methods currently supported are
+#' `EpiDISH`, `FlowSorted`, `MethylCC`, `MethylResolver`
 #'
-#' @return A String
+#' The object is a named vector. The names correspond to the display name of the method,
+#' the values to the internal name.
+#'
+#' @export
+deconvolution_methods <- c(
+  "EpiDISH" = "epidish", "FlowSorted" = "flowsorted", "MethylCC" = "methylcc", "MethylResolver" = "methylresolver"
+)
+
+
+#' Deconvolution
+#'
+#' @param meth methylated data matrix
+#' @param unmeth unmethylated data matrix 
+#' @param method A string specifying the method. Supported methods are 'epidish', 'flowsorted', 'methylcc', 'methylresolver'
+#' @param normalize_results   Whether the deconvolution results should be normalized.
+#'   Negative values will be put to 0, and the estimates will be normalized to sum to 1.
+#'   Defaults to FALSE.
+#' @param ... Additional parameters, passed to the algorithm used. See individual method documentations for details.
+#'
+#' @return A matrix with the probabilities of each cell-type for each individual. Rows are
+#' individuals, columns are cell types.
+#' @export
+#'
+#' @examples 
+#' 
+#' ex_data <- minfiData::MsetEx
+#' meth <- minfi::getMeth(ex_data)
+#' unmeth <- minfi::getUnmeth(ex_data)
+#' 
+#' result <- deconvolute(meth, unmeth, method='epidish')
+deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_results = FALSE, ...){
+  
+  if (length(method) > 1) {
+    stop(
+      "Please only specify one method and not ", length(method), ": ",
+      paste(method, collapse = ", ")
+    )
+  }
+  
+  if (method %in% names(deconvolution_methods)) {
+    method <- deconvolution_methods[[method]]
+  }
+  
+  method <- tolower(method)
+  
+  
+  result <- switch (method,
+    epidish = run_epidish(meth, unmeth, ...)$estF,
+    flowsorted = run_flowsortedblood(meth, unmeth, ...)$prop,
+    methylcc = run_methylcc(meth, unmeth, ...),
+    methylresolver = run_methylresolver(meth, unmeth, ...)$result_fractions
+  )
+  
+  if(!is.null(result)){
+    # Normalize the results to sum up to 1
+    if (normalize_results) {
+      deconv <- normalize_deconv_results(result)
+    }
+    # Alphabetical order of celltypes
+    result <- result[, order(colnames(result)), drop = FALSE]
+  }
+  
+  return(result)
+}
+
+#' Run all available deconvolution methods
+#'
+#' @param meth methylated data matrix
+#' @param unmeth unmethylated data matrix 
+#' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
+#'
+#' @return dataframe with results of all methods
 #' @export
 #'
 #' @examples
-run_deconvolutions <- function(obj=NA, meth=NA, unmeth=NA, meta=NA, condition=NA, seed=1){
-  result_epidish <- NULL
-  result_tca <- NULL
-  result_flowsortedbloodepic <- NULL
-  result_methylcc <- NULL
-  if (missing(obj)) {
-    if (missing(meth) | missing(unmeth)) {
-      message("if no object is given, 'meth' and 'unmeth' need to be provided.")
-      return(NULL)
+run_all_methods <- function(meth, unmeth, array = c('450k','EPIC')){
+  
+  res_epidish <- run_epidish(meth, unmeth)
+  res_flowsorted <- run_flowsortedblood(meth, unmeth, array = array)
+  res_methylcc <- run_methylcc(meth, unmeth, array = array)
+  res_methylresolver <- run_methylresolver(meth, unmeth)
+  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions)
+  names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver')
+  
+  tmp <- lapply(1:4, function(i){
+    result_i <- results[[i]]
+    result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
+    result_i <- tibble::rownames_to_column(result_i, "sample")
+    result_i[['method']] <- names(results)[i]
+    if('Bcell' %in% colnames(result_i)){
+      result_i <- result_i %>% dplyr::rename(B = Bcell)
     }
-    if (!is.matrix(meth)) {
-      message("'meth' needs to be of class 'matix'.")
-      return(NULL)
+    if('Neu' %in% colnames(result_i)){
+      result_i <- result_i %>% dplyr::rename(Neutro = Neu)
     }
-    if (!is.matrix(unmeth)) {
-      message("'unmeth' needs to be of class 'matix'.")
-      return(NULL)
+    if('CD8' %in% colnames(result_i)){
+      result_i <- result_i %>% dplyr::rename(CD8T = CD8)
     }
-    result_flowsortedbloodepic <- run_flowsortedbloodepic_raw(meth, unmeth)
-    result_methylcc <- run_methylcc_raw(meth, unmeth)
-  } else if (is.matrix(obj)) {
-    result_epidish <- run_epidish(obj)
-    if (!missing(meta) & !missing(condition)) {
-      if (!is.data.frame(meta) | !is.character(condition)) {
-        message("'meta' needs to be of class 'data.frame' and 'condition' of class 'character'.")
-      } else {
-        result_tca <- run_tca(obj, meta, condition, result_epidish$rpc)
-      }
+    if('Eos' %in% colnames(result_i)){
+      result_i <- result_i %>% dplyr::rename(Eosino = Eos)
     }
-    if (!missing(meth) & !missing(unmeth)) {
-      if (!is.matrix(meth)) {
-        message("'meth' needs to be of class 'matix'.")
-        return(NULL)
-      }
-      if (!is.matrix(unmeth)) {
-        message("'unmeth' needs to be of class 'matix'.")
-        return(NULL)
-      }
-      result_flowsortedbloodepic <- run_flowsortedbloodepic_raw(meth, unmeth)
-      result_methylcc <- run_methylcc_raw(meth, unmeth, seed)
+    if('Mon' %in% colnames(result_i)){
+      result_i <- result_i %>% dplyr::rename(Mono = Mon)
     }
-  } else if (is(obj, "MethylSet")) {
-    result_flowsortedbloodepic <- run_flowsortedbloodepic(obj)
-    result_methylcc <- run_methylcc(obj, seed)
-    if (!missing(meth) & !missing(unmeth)) {
-      message("'meth' and 'unmeth' will be ignored, since 'obj' is of class 'MethylSet'.")
-    }
-  } else if (is(obj, "GenomicMethylSet")) {
-    result_flowsortedbloodepic <- run_flowsortedbloodepic(obj)
-    result_methylcc <- run_methylcc(obj, seed)
-    if (!missing(meth) & !missing(unmeth)) {
-      message("'meth' and 'unmeth' will be ignored, since 'obj' is of class 'GenomicMethylSet'.")
-    }
-  } else if (is(obj, "RGChannelSet")) {
-    result_flowsortedbloodepic <- run_flowsortedbloodepic(obj, method = "preprocessNoob")
-    result_methylcc <- run_methylcc(obj, seed)
-    if (!missing(meth) & !missing(unmeth)) {
-      message("'meth' and 'unmeth' will be ignored, since 'obj' is of class 'RGChannelSet'.")
-    }
-  } else {
-    message("'obj' needs to be of class 'matrix', 'MethylSet', 'GenomicMethylSet' or 'RGChannelSet'.")
-    return(NULL)
-  }
-  return(list(epidish=result_epidish,
-              tca=result_tca,
-              flowsortedbloodepic=result_flowsortedbloodepic,
-              methylcc=result_methylcc))
+    result_i
+  })
+  
+  combined_result <- data.table::rbindlist(tmp, fill = TRUE)
+  
+  return(combined_result)
 }

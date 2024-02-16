@@ -4,13 +4,60 @@
 \alias{run_epidish}
 \title{run EpiDISH}
 \usage{
-run_epidish(value_matrix)
+run_epidish(
+  meth,
+  unmeth,
+  mode = c("RPC", "CBS", "CP"),
+  reference = c("blood", "breast", "epithelial"),
+  maxit = 50,
+  nu.v = c(0.25, 0.5, 0.7),
+  constraint = c("inequality", "equality")
+)
 }
 \arguments{
-\item{value_matrix}{matrix containing methylation profiles}
+\item{meth}{methylated data matrix}
+
+\item{unmeth}{unmethylated data matrix}
+
+\item{mode}{Choice of a reference-based method ('RPC','CBS','CP')}
+
+\item{reference}{A matrix of reference 'centroids', i.e. representative molecular profiles,
+for a number of cell subtypes. rows label molecular features (e.g. CpGs,...)
+and columns label the cell-type. IDs need to be provided as rownames and
+colnames, respectively. Missing value is not allowed, and all values in
+this matrix should be positive or zero. For DNAm data, values should be
+beta-values.}
+
+\item{maxit}{Only used in RPC mode, the limit of the number of IWLS iterations}
+
+\item{nu.v}{Only used in CBS mode. It is a vector of several candidate nu values. nu is
+parameter needed for nu-classification, nu-regression, and
+one-classification in svm. The best estimation results among all candidate nu
+will be automatically returned.}
+
+\item{constraint}{Only used in CP mode, you can choose either of 'inequality' or 'equality'
+normalization constraint. The default is 'inequality' (i.e sum of weights
+adds to a number less or equal than 1), which was implemented in
+Houseman et al (2012).}
 }
 \value{
-named list with 3 Cell Type proportion matrices
+CP-mode
+A list with the following entries: estF: a matrix of the estimated fractions;
+ref: the reference centroid matrix used; dataREF: the subset of the input
+data matrix with only the probes defined in the reference matrix.
+
+CBS-mode
+A list with the following entries: estF: a matrix of the estimated fractions;
+nu: a vector of 'best' nu-parameter for each sample;
+ref: the reference centroid matrix used;
+dataREF: the subset of the input data matrix with only the probes defined in the
+reference matrix.
+
+RPC-mode
+A list with the following entries: estF: a matrix of the estimated fractions;
+ref: the reference centroid matrix used;
+dataREF: the subset of the input data matrix with only the probes defined in the
+reference matrix.
 }
 \description{
 run EpiDISH

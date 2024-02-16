@@ -1,7 +1,7 @@
 Package: methylDeconv
 Title: Unified access to DNA methylation based cell-type deconvolution
     methods
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = c("aut", "cre"))
 Description: runs several cell type deconvolution algorithms.
@@ -11,21 +11,21 @@ BugReports: https://github.com/biomedbigdata/methylDeconv/issues
 Depends:
     R (>= 2.10)
 Imports:
-    dplyr,
     EpiDISH,
     FlowSorted.Blood.EPIC,
     ggplot2,
-    matrixStats,
     methylCC,
-    minfi,
-    reshape,
-    TCA
+    minfi
 Suggests: 
     Biobase,
     FlowSorted.Blood.450k,
     IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
     IlluminaHumanMethylationEPICmanifest,
+    IlluminaHumanMethylation450kanno.ilmn12.hg19,
+    IlluminaHumanMethylation450kmanifest,
     testthat (>= 3.0.0)
+Remotes:
+    omnideconv/MethylResolver
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
