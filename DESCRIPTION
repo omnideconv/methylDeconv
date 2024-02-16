@@ -6,7 +6,9 @@ Authors@R:
     person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = c("aut", "cre"))
 Description: runs several cell type deconvolution algorithms.
 License: MIT + file LICENSE
-URL: https://github.com/biomedbigdata/methylDeconv
+URL: https://github.com/biomedbigdata/methylDeconv,
+    http://biomedical-big-data.de/methylDeconv/,
+    http://omnideconv.org/methylDeconv/
 BugReports: https://github.com/biomedbigdata/methylDeconv/issues
 Depends:
     R (>= 2.10)
