@@ -1,7 +1,6 @@
 #' run EpiDISH
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix
+#' @param methyl_set A minfi MethylSet
 #' @param mode Choice of a reference-based method ('RPC','CBS','CP')
 #' @param reference A matrix of reference 'centroids', i.e. representative molecular profiles, 
 #' for a number of cell subtypes. rows label molecular features (e.g. CpGs,...) 
@@ -39,14 +38,14 @@
 #' @export
 #'
 #' @examples
-run_epidish <- function(meth, unmeth, mode=c('RPC', 'CBS', 'CP'), 
+run_epidish <- function(methyl_set, mode=c('RPC', 'CBS', 'CP'), 
                         reference=c('blood','breast','epithelial'), 
                         maxit = 50, nu.v = c(0.25, 0.5, 0.7), 
                         constraint = c("inequality", "equality")){
   require(EpiDISH)
   
-  check_input(meth, unmeth)
-  beta_matrix <- create_beta(meth, unmeth)
+  # check_input(meth, unmeth)
+  beta_matrix <- minfi::getBeta(methyl_set)
   
   if (length(mode) > 1) {
     mode <- mode[1]

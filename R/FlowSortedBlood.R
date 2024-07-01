@@ -1,7 +1,6 @@
 #' Run the improved Houseman method
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix
+#' @param methyl_set A minfi MethylSet
 #' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
 #' @param compositeCellType Which composite cell type is being deconvoluted. Should be one of "Blood", "CordBloodCombined", "CordBlood", "CordBloodNorway", "CordTissueAndBlood", or "DLPFC". See details for preferred approaches.
 #' @param processMethod Joint normalization/background correction for user and reference data. For MethylSet objects only "preprocessQuantile" is available. Set it to any minfi preprocessing function as a character if you want to override it, like "preprocessFunnorm"
@@ -21,15 +20,14 @@
 #' @export
 #'
 #' @examples
-run_flowsortedblood <- function(meth, unmeth, array = c('450k','EPIC'),
+run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
                                 compositeCellType=c('Blood','CordBloodCombined','CordBlood','CordBloodNorway','CordTissueAndBlood','DLPFC'),
                                 processMethod = 'preprocessQuantile', probeSelect = c('IDOL','both','any'), cellTypes =c('CD8T','CD4T','NK','Bcell','Mono','Neu'),
                                 referencePlatform = c('IlluminaHumanMethylationEPIC','IlluminaHumanMethylation450k','IlluminaHumanMethylation27k'),
                                 referenceset = NULL, CustomCpGs = NULL, meanPlot = FALSE, verbose = TRUE, lessThanOne = FALSE, cellCounts = NULL, ...){
   require(FlowSorted.Blood.EPIC)
   
-  check_input(meth, unmeth)
-  methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
+  # check_input(methyl_set)
   
   if (length(array) > 1) {
     array <- array[1]
