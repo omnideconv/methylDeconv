@@ -36,7 +36,7 @@ run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
   
   set.seed(seed)
   
-  # check_input(methyl_set)
+  check_input_mset(methyl_set)
   
   if (length(array) > 1) {
     array <- array[1]

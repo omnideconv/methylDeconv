@@ -19,7 +19,7 @@ run_methylresolver <- function(methyl_set, doPar = F, numCores = 1, alpha = seq(
   
   set.seed(seed)
   
-  # check_input(methyl_set) 
+  check_input_mset(methyl_set) 
   beta_matrix <- minfi::getBeta(methyl_set)
   
   result_methylresolver <- MethylResolver::MethylResolver(methylMix = beta_matrix, 

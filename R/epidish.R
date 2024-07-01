@@ -44,7 +44,7 @@ run_epidish <- function(methyl_set, mode=c('RPC', 'CBS', 'CP'),
                         constraint = c("inequality", "equality")){
   require(EpiDISH)
   
-  # check_input(meth, unmeth)
+  check_input_mset(methyl_set)
   beta_matrix <- minfi::getBeta(methyl_set)
   
   if (length(mode) > 1) {

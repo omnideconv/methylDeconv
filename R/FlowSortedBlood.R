@@ -27,7 +27,7 @@ run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
                                 referenceset = NULL, CustomCpGs = NULL, meanPlot = FALSE, verbose = TRUE, lessThanOne = FALSE, cellCounts = NULL, ...){
   require(FlowSorted.Blood.EPIC)
   
-  # check_input(methyl_set)
+  check_input_mset(methyl_set)
   
   if (length(array) > 1) {
     array <- array[1]
