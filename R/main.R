@@ -50,8 +50,8 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
   result <- switch (method,
     epidish = run_epidish(methyl_set, ...)$estF,
     flowsorted = run_flowsortedblood(methyl_set, ...)$prop,
-    methylcc = run_methylcc(methyl_set, ...),
-    methylresolver = run_methylresolver(methyl_set, ...)$result_fractions
+    methylcc = as.matrix(run_methylcc(methyl_set, ...)),
+    methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions)
   )
   
   if(!is.null(result)){
