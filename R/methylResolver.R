@@ -22,6 +22,11 @@ run_methylresolver <- function(methyl_set, doPar = F, numCores = 1, alpha = seq(
   check_input_mset(methyl_set) 
   beta_matrix <- minfi::getBeta(methyl_set)
   
+  if (length(alpha) > 1){
+    warning("MethylResolver may fail if multiple alpha values are provided. If this occurs, specify a single alpha value between 0.5 and 1.",
+            immediate. = TRUE)
+  }
+  
   result_methylresolver <- MethylResolver::MethylResolver(methylMix = beta_matrix, 
                                                           methylSig = MethylResolver::MethylSig, 
                                                           betaPrime = FALSE,
