@@ -2,14 +2,15 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `EpiDISH`, `FlowSorted`, `MethylCC`, `MethylResolver`
+#' `EpiDISH`, `FlowSorted`, `MethylCC`, `MethylResolver`, `MethAtlas`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods <- c(
-  "EpiDISH" = "epidish", "FlowSorted" = "flowsorted", "MethylCC" = "methylcc", "MethylResolver" = "methylresolver"
+  "EpiDISH" = "epidish", "FlowSorted" = "flowsorted", "MethylCC" = "methylcc", 
+  "MethylResolver" = "methylresolver", "MethAtlas" = "meth_atlas"
 )
 
 
@@ -54,7 +55,8 @@ deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_re
     epidish = run_epidish(meth, unmeth, ...)$estF,
     flowsorted = run_flowsortedblood(meth, unmeth, ...)$prop,
     methylcc = run_methylcc(meth, unmeth, ...),
-    methylresolver = run_methylresolver(meth, unmeth, ...)$result_fractions
+    methylresolver = run_methylresolver(meth, unmeth, ...)$result_fractions,
+    meth_atlas = run_meth_atlas(minfi::MethylSet(meth, unmeth))
   )
   
   if(!is.null(result)){
@@ -85,10 +87,11 @@ run_all_methods <- function(meth, unmeth, array = c('450k','EPIC')){
   res_flowsorted <- run_flowsortedblood(meth, unmeth, array = array)
   res_methylcc <- run_methylcc(meth, unmeth, array = array)
   res_methylresolver <- run_methylresolver(meth, unmeth)
-  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions)
-  names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver')
+  res_meth_atlas <- run_meth_atlas(minfi::MethylSet(meth, unmeth))
+  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions, res_meth_atlas)
+  names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver', "MethAtlas")
   
-  tmp <- lapply(1:4, function(i){
+  tmp <- lapply(1:5, function(i){
     result_i <- results[[i]]
     result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
     result_i <- tibble::rownames_to_column(result_i, "sample")
