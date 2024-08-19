@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-run_meth_atlas <- function(mSet, reference_atlas = "inst/reference_atlas.csv" , temp_dir = NULL, out_dir = NULL){
+run_meth_atlas <- function(mSet, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
   # check if python is installed, else install
   init_python()
   
@@ -35,7 +35,7 @@ run_meth_atlas <- function(mSet, reference_atlas = "inst/reference_atlas.csv" , 
   write.csv(beta, beta_path)
   
   # run meth_atlas
-  system(paste("python inst/deconvolve.py -a", reference_atlas, beta_path, "--out", out_dir))
+  system(paste("python", system.file("deconvolve.py", package = "methylDeconv")," -a", reference_atlas, beta_path, "--out", out_dir))
   
   # read the results to provide as data frame
   t(utils::read.table(paste0(out_dir, "/beta_deconv_output.csv"),
