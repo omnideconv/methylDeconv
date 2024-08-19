@@ -52,3 +52,18 @@ normalize_deconv_results <- function(deconv_result) {
   }
   return(deconv_result)
 }
+
+
+init_python <- function(){
+  # reticulate::py_config()
+  if (!reticulate::py_available()) {
+    if (!("r-methyldeconv" %in% reticulate::conda_list()$name)) {
+      reticulate::conda_create("r-methyldeconv", python_version = "3.10")
+      reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
+      
+    }}
+  
+  reticulate::use_miniconda(condaenv = "r-methyldeconv", required = TRUE)
+  reticulate::py_config()
+  
+}

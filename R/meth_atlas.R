@@ -11,6 +11,9 @@
 #'
 #' @examples
 run_meth_atlas <- function(mSet, reference_atlas = "inst/reference_atlas.csv" , temp_dir = NULL, out_dir = NULL){
+  # check if python is installed, else install
+  init_python()
+  
   # set up temporary nd output directories
   tmp_dir <- temp_dir
   if (is.null(temp_dir)) {
