@@ -1,7 +1,6 @@
 #' run methylCC deconvolution
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix
+#' @param methyl_set A minfi MethylSet
 #' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
 #' @param find_dmrs_object If the user would like to supply different differentially methylated regions, they can use the output from the find_dmrs function to supply different regions to estimatecc.
 #' @param verbose TRUE/FALSE argument specifying if verbose messages should be returned or not. Default is TRUE.
@@ -23,7 +22,7 @@
 #' @export
 #'
 #' @examples
-run_methylcc <- function(meth, unmeth, array = c('450k','EPIC'),
+run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
                          find_dmrs_object = NULL, verbose = TRUE,
                          epsilon = 0.01, max_iter = 100, take_intersection = FALSE,
                          include_cpgs = FALSE, include_dmrs = TRUE,
@@ -37,8 +36,7 @@ run_methylcc <- function(meth, unmeth, array = c('450k','EPIC'),
   
   set.seed(seed)
   
-  check_input(meth, unmeth)
-  methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
+  check_input_mset(methyl_set)
   
   if (length(array) > 1) {
     array <- array[1]

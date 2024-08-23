@@ -15,8 +15,7 @@ deconvolution_methods <- c(
 
 #' Deconvolution
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix 
+#' @param methyl_set A minfi MethylSet
 #' @param method A string specifying the method. Supported methods are 'epidish', 'flowsorted', 'methylcc', 'methylresolver'
 #' @param normalize_results   Whether the deconvolution results should be normalized.
 #'   Negative values will be put to 0, and the estimates will be normalized to sum to 1.
@@ -30,11 +29,9 @@ deconvolution_methods <- c(
 #' @examples 
 #' 
 #' ex_data <- minfiData::MsetEx
-#' meth <- minfi::getMeth(ex_data)
-#' unmeth <- minfi::getUnmeth(ex_data)
 #' 
-#' result <- deconvolute(meth, unmeth, method='epidish')
-deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_results = FALSE, ...){
+#' result <- deconvolute(ex_data, method='epidish')
+deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_results = FALSE, ...){
   
   if (length(method) > 1) {
     stop(
@@ -51,10 +48,10 @@ deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_re
   
   
   result <- switch (method,
-    epidish = run_epidish(meth, unmeth, ...)$estF,
-    flowsorted = run_flowsortedblood(meth, unmeth, ...)$prop,
-    methylcc = run_methylcc(meth, unmeth, ...),
-    methylresolver = run_methylresolver(meth, unmeth, ...)$result_fractions
+    epidish = run_epidish(methyl_set, ...)$estF,
+    flowsorted = run_flowsortedblood(methyl_set, ...)$prop,
+    methylcc = as.matrix(run_methylcc(methyl_set, ...)),
+    methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions)
   )
   
   if(!is.null(result)){
@@ -79,12 +76,12 @@ deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_re
 #' @export
 #'
 #' @examples
-run_all_methods <- function(meth, unmeth, array = c('450k','EPIC')){
+run_all_methods <- function(methyl_set, array = c('450k','EPIC')){
   
-  res_epidish <- run_epidish(meth, unmeth)
-  res_flowsorted <- run_flowsortedblood(meth, unmeth, array = array)
-  res_methylcc <- run_methylcc(meth, unmeth, array = array)
-  res_methylresolver <- run_methylresolver(meth, unmeth)
+  res_epidish <- run_epidish(methyl_set)
+  res_flowsorted <- run_flowsortedblood(methyl_set, array = array)
+  res_methylcc <- run_methylcc(methyl_set, array = array)
+  res_methylresolver <- run_methylresolver(methyl_set)
   results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions)
   names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver')
   

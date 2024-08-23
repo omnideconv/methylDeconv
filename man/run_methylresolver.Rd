@@ -5,8 +5,7 @@
 \title{Run MethylResolver}
 \usage{
 run_methylresolver(
-  meth,
-  unmeth,
+  methyl_set,
   doPar = F,
   numCores = 1,
   alpha = seq(0.5, 0.9, by = 0.05),
@@ -16,9 +15,7 @@ run_methylresolver(
 )
 }
 \arguments{
-\item{meth}{methylated data matrix}
-
-\item{unmeth}{unmethylated data matrix}
+\item{methyl_set}{A minfi MethylSet}
 
 \item{doPar}{Whether to use parallel processing to speed up the deconvolution computation if many samples are present. Default is FALSE.}
 

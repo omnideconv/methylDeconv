@@ -5,8 +5,7 @@
 \title{Run the improved Houseman method}
 \usage{
 run_flowsortedblood(
-  meth,
-  unmeth,
+  methyl_set,
   array = c("450k", "EPIC"),
   compositeCellType = c("Blood", "CordBloodCombined", "CordBlood", "CordBloodNorway",
     "CordTissueAndBlood", "DLPFC"),
@@ -25,9 +24,7 @@ run_flowsortedblood(
 )
 }
 \arguments{
-\item{meth}{methylated data matrix}
-
-\item{unmeth}{unmethylated data matrix}
+\item{methyl_set}{A minfi MethylSet}
 
 \item{array}{type of methylation array that was used. possible options are '450k' and 'EPIC'}
 

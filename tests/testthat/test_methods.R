@@ -9,8 +9,7 @@ unmeth <- minfi::getUnmeth(ex_data)
 # write.csv()
 
 test_that("EpiDISH works", {
-  epidish_res <- methylDeconv::run_epidish(meth = meth, 
-                                           unmeth = unmeth)$estF
+  epidish_res <- methylDeconv::run_epidish(methyl_set = ex_data)$estF
   check_result <- as.matrix(read.csv("test_results/epidish.csv",
                                      row.names = 1,
                                      check.names = FALSE
@@ -23,8 +22,7 @@ test_that("EpiDISH works", {
 
 
 test_that("methylCC works", {
-  methylcc_res <- as.matrix(methylDeconv::run_methylcc(meth = meth, 
-                                                       unmeth = unmeth))
+  methylcc_res <- as.matrix(methylDeconv::run_methylcc(methyl_set = ex_data))
   check_result <- as.matrix(read.csv("test_results/methylcc.csv",
                                      row.names = 1,
                                      check.names = FALSE
@@ -36,8 +34,7 @@ test_that("methylCC works", {
 })
 
 test_that("FlowSorted works", {
-  flowSorted_res <- methylDeconv::run_flowsortedblood(meth = meth, 
-                                                      unmeth = unmeth)$prop
+  flowSorted_res <- methylDeconv::run_flowsortedblood(methyl_set = ex_data)$prop
   check_result <- as.matrix(read.csv("test_results/flowsorted.csv",
                                      row.names = 1,
                                      check.names = FALSE
@@ -49,8 +46,7 @@ test_that("FlowSorted works", {
 })
 
 test_that("MethylResolver works", {
-  methylResolver_res <- methylDeconv::run_methylresolver(meth = meth, 
-                                                         unmeth = unmeth)$result_fractions
+  methylResolver_res <- as.matrix(methylDeconv::run_methylresolver(methyl_set = ex_data, alpha = 1)$result_fractions)
   check_result <- as.matrix(read.csv("test_results/methylresolver.csv",
                                      row.names = 1,
                                      check.names = FALSE
