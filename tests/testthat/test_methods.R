@@ -58,8 +58,7 @@ test_that("MethylResolver works", {
 })
 
 test_that("MethAtlas works", {
-  meth_atlas_res <- methylDeconv::run_meth_atlas(meth = meth, 
-                                           unmeth = unmeth)
+  meth_atlas_res <- methylDeconv::run_meth_atlas(methyl_set = ex_data)
   check_result <- as.matrix(read.csv("test_results/meth_atlas.csv",
                                      row.names = 1,
                                      check.names = FALSE

@@ -53,7 +53,7 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
     flowsorted = run_flowsortedblood(methyl_set, ...)$prop,
     methylcc = as.matrix(run_methylcc(methyl_set, ...)),
     methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions),
-    meth_atlas = run_meth_atlas(meth, unmeth, ...)
+    meth_atlas = run_meth_atlas(methyl_set, ...)
   )
   
   if(!is.null(result)){
@@ -84,7 +84,7 @@ run_all_methods <- function(methyl_set, array = c('450k','EPIC')){
   res_flowsorted <- run_flowsortedblood(methyl_set, array = array)
   res_methylcc <- run_methylcc(methyl_set, array = array)
   res_methylresolver <- run_methylresolver(methyl_set)
-  res_meth_atlas <- run_meth_atlas(minfi::MethylSet(meth, unmeth))
+  res_meth_atlas <- run_meth_atlas(methyl_set)
   results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions, res_meth_atlas)
   names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver', "MethAtlas")
   

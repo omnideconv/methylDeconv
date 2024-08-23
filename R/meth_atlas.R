@@ -1,7 +1,6 @@
 #' run meth_atlas
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix
+#' @param methyl_set A minfi MethylSet
 #' @param reference_atlas Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
 #'                        The default reference file is stored in 'inst/reference_atlas.csv'. 
 #' @param temp_dir Path to directory where the beta matrix will be saved as a csv file.
@@ -11,7 +10,7 @@
 #' @export
 #'
 #' @examples
-run_meth_atlas <- function(meth, unmeth, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
+run_meth_atlas <- function(methyl_set, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
   # check if python is installed, else install
   init_python()
   
@@ -30,10 +29,8 @@ run_meth_atlas <- function(meth, unmeth, reference_atlas = system.file("referenc
     dir.create(out_dir, showWarnings = FALSE)
   }
   
-  mSet <- minfi::MethylSet(meth, unmeth)
-  
-  # create a beta matrix from the mSet and save to temporary folder
-  beta <- minfi::getBeta(mSet)
+  # create a beta matrix from the methyl_set and save to temporary folder
+  beta <- minfi::getBeta(methyl_set)
   beta_path = paste0(tmp_dir, "/beta.csv")
   write.csv(beta, beta_path)
   
