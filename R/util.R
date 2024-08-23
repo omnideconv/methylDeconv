@@ -55,16 +55,22 @@ normalize_deconv_results <- function(deconv_result) {
 
 
 init_python <- function(){
-  # TODO: check if miniconda installed (see reticulate)
-  if (!reticulate::py_available()) {
-    if (!(reticulate::condaenv_exists("r-methyldeconv"))) {
-      # TODO: message that a conda environment is set up
-      reticulate::conda_create("r-methyldeconv", python_version = "3.10")
-      reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
-      
-      
-    }}
+  # ensure that miniconda is installed
+  if (!dir.exists(reticulate::miniconda_path())) {
+    message("Setting python version in miniconda to be 3.10")
+    Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.10)
+    message("Setting up miniconda environment..")
+    suppressMessages(reticulate::install_miniconda())
+  }
+  
+  if (!(reticulate::condaenv_exists("r-methyldeconv"))) {
+    message("Create conda evironment 'r-methyldeconv' for meth_atlas...")
+    reticulate::conda_create("r-methyldeconv", python_version = "3.10")
+    message("Install all python dependencies...")
+    reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
+  }
 
+  
   reticulate::use_condaenv(condaenv = "r-methyldeconv", required = FALSE)
   reticulate::py_config()
   
