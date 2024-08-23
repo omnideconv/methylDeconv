@@ -1,63 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/404.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/authors.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/index.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/news/index.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/check_input.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/compare_results.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/create_beta.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/deconvolute.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/deconvolution_methods.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/normalize_deconv_results.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/run_epidish.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/run_flowsortedblood.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/run_methylcc.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/run_methylresolver.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/visualize_result_bar.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/visualize_result_box.html</loc>
-  </url>
-  <url>
-    <loc>http://omnideconv.org/methylDeconv/reference/visualize_results.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://omnideconv.org/methylDeconv/404.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/LICENSE-text.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/LICENSE.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/authors.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/index.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/news/index.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/check_input.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/check_input_mset.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/compare_results.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/create_beta.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/deconvolute.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/deconvolution_methods.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/index.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/normalize_deconv_results.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/run_all_methods.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/run_epidish.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/run_flowsortedblood.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/run_methylcc.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/run_methylresolver.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/visualize_result_bar.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/visualize_result_box.html</loc></url>
+<url><loc>http://omnideconv.org/methylDeconv/reference/visualize_results.html</loc></url>
 </urlset>
+
