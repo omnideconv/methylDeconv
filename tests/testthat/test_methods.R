@@ -47,7 +47,6 @@ test_that("FlowSorted works", {
 
 test_that("MethylResolver works", {
   methylResolver_res <- as.matrix(methylDeconv::run_methylresolver(methyl_set = ex_data, alpha = 1)$result_fractions)
-  print(methylResolver_res)
   check_result <- as.matrix(read.csv("test_results/methylresolver.csv",
                                      row.names = 1,
                                      check.names = FALSE
