@@ -56,7 +56,7 @@ deconvolute <- function(meth, unmeth, method=deconvolution_methods, normalize_re
     flowsorted = run_flowsortedblood(meth, unmeth, ...)$prop,
     methylcc = run_methylcc(meth, unmeth, ...),
     methylresolver = run_methylresolver(meth, unmeth, ...)$result_fractions,
-    meth_atlas = run_meth_atlas(minfi::MethylSet(meth, unmeth, ...))
+    meth_atlas = run_meth_atlas(meth, unmeth, ...)
   )
   
   if(!is.null(result)){
