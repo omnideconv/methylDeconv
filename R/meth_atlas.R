@@ -23,7 +23,7 @@ run_meth_atlas <- function(meth, unmeth, reference_atlas = system.file("referenc
   }
   
   if (is.null(out_dir)) {
-    out_dir <- "meth_atlas_out"
+    out_dir <- tmp_dir
   } 
   
   if (!dir.exists(out_dir)){
