@@ -60,3 +60,16 @@ test_that("MethylResolver works", {
     expected = check_result, tolerance = 1e-3
   )
 })
+
+test_that("MethAtlas works", {
+  meth_atlas_res <- methylDeconv::run_meth_atlas(meth = meth, 
+                                           unmeth = unmeth)
+  check_result <- as.matrix(read.csv("test_results/meth_atlas.csv",
+                                     row.names = 1,
+                                     check.names = FALSE
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = meth_atlas_res,
+    expected = check_result, tolerance = 1e-3
+  )
+})
