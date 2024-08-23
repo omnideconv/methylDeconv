@@ -5,8 +5,7 @@
 \title{run EpiDISH}
 \usage{
 run_epidish(
-  meth,
-  unmeth,
+  methyl_set,
   mode = c("RPC", "CBS", "CP"),
   reference = c("blood", "breast", "epithelial"),
   maxit = 50,
@@ -15,9 +14,7 @@ run_epidish(
 )
 }
 \arguments{
-\item{meth}{methylated data matrix}
-
-\item{unmeth}{unmethylated data matrix}
+\item{methyl_set}{A minfi MethylSet}
 
 \item{mode}{Choice of a reference-based method ('RPC','CBS','CP')}
 

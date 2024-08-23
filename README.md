@@ -4,6 +4,7 @@
 # methylDeconv
 
 <!-- badges: start -->
+[![R](https://github.com/omnideconv/methylDeconv/actions/workflows/r.yml/badge.svg)](https://github.com/omnideconv/methylDeconv/actions/workflows/r.yml)
 <!-- badges: end -->
 
 The goal of methylDeconv is to …

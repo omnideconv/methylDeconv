@@ -1,7 +1,6 @@
 #' Run MethylResolver
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix 
+#' @param methyl_set A minfi MethylSet
 #' @param doPar Whether to use parallel processing to speed up the deconvolution computation if many samples are present. Default is FALSE. 
 #' @param numCores Number of cores used for parallel processing to speed up the deconvolution of many samples. Requires doPar = TRUE. Default is 1. numCores = "auto" is max number of cores available minus one. 
 #' @param alpha Set the alpha parameter for LTS deconvolution. This is the fraction of optimal CpGs from the signature matrix which are used for deconvolution. Must be between 0 and 1. Users can specify a vector or a single number. If a vector is specified, a grid search of the values is conducted and the alpha value that results in the lowest RMSE between the original and reconstructed mixture is selected. Default is seq(0.5,0.9,by = 0.05). 
@@ -13,15 +12,20 @@
 #' @export
 #'
 #' @examples
-run_methylresolver <- function(meth, unmeth, doPar = F, numCores = 1, alpha = seq(0.5,0.9,by = 0.05),
+run_methylresolver <- function(methyl_set, doPar = F, numCores = 1, alpha = seq(0.5,0.9,by = 0.05),
                                absolute = TRUE, purityModel = MethylResolver::RFmodel, seed = 1){
   
   require(MethylResolver)
   
   set.seed(seed)
   
-  check_input(meth, unmeth)
-  beta_matrix <- create_beta(meth, unmeth)
+  check_input_mset(methyl_set) 
+  beta_matrix <- minfi::getBeta(methyl_set)
+  
+  if (length(alpha) > 1){
+    warning("MethylResolver may fail if multiple alpha values are provided. If this occurs, specify a single alpha value between 0.5 and 1.",
+            immediate. = TRUE)
+  }
   
   result_methylresolver <- MethylResolver::MethylResolver(methylMix = beta_matrix, 
                                                           methylSig = MethylResolver::MethylSig, 
