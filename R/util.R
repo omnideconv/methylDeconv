@@ -55,6 +55,7 @@ normalize_deconv_results <- function(deconv_result) {
 
 
 init_python <- function(){
+  # TODO: check if miniconda installed (see reticulate)
   if (!reticulate::py_available()) {
     if (!(reticulate::condaenv_exists("r-methyldeconv"))) {
       # TODO: message that a conda environment is set up
