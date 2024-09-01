@@ -38,8 +38,8 @@ run_meth_atlas <- function(methyl_set, reference_atlas = system.file("reference_
   system(paste("python", system.file("deconvolve.py", package = "methylDeconv")," -a", reference_atlas, beta_path, "--out", out_dir))
   
   # read the results to provide as data frame
-  read.csv(paste0(out_dir, "/beta_deconv_output.csv"),
+  as.matrix(t(read.csv(paste0(out_dir, "/beta_deconv_output.csv"),
                       row.names = 1, check.names = FALSE
-  ) %>% t() %>% as.matrix()
+  )))
 }
   
