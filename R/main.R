@@ -84,29 +84,23 @@ run_all_methods <- function(methyl_set, array = c('450k','EPIC')){
   res_methylcc <- run_methylcc(methyl_set, array = array)
   res_methylresolver <- run_methylresolver(methyl_set)
   res_meth_atlas <- run_meth_atlas(methyl_set)
-  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions, res_meth_atlas)
-  names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver', "MethAtlas")
   
-  tmp <- lapply(1:5, function(i){
+  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions, res_meth_atlas)
+  names(results) <- c('EpiDISH', "FlowSortedBlood", "MethylCC", "MethylResolver", "MethAtlas")
+  
+  tmp <- lapply(1:4, function(i){
     result_i <- results[[i]]
+    print(result_i)
     result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
+    
+    result_i <- rename_cell_types(result_i)
+    result_i <- result_i[,colnames(result_i) != "other"]
+    print(result_i)
+    
     result_i <- tibble::rownames_to_column(result_i, "sample")
     result_i[['method']] <- names(results)[i]
-    if('Bcell' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(B = Bcell)
-    }
-    if('Neu' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Neutro = Neu)
-    }
-    if('CD8' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(CD8T = CD8)
-    }
-    if('Eos' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Eosino = Eos)
-    }
-    if('Mon' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Mono = Mon)
-    }
+    
+    print(result_i)
     result_i
   })
   
