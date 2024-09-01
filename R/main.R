@@ -70,8 +70,7 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
 
 #' Run all available deconvolution methods
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix 
+#' @param methyl_set A minfi MethylSet
 #' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
 #'
 #' @return dataframe with results of all methods
