@@ -83,13 +83,14 @@ normalize_deconv_results <- function(deconv_result) {
 #' deconv_results <- data.frame(CD8T = c(0.1, 0.2), CD4T = c(0.3, 0.4))
 #' rename_cell_types(deconv_results)
 rename_cell_types <- function(deconv_results){
-  colnames(deconv_results) <- recode(colnames(deconv_results),
+  colnames(deconv_results) <- dplyr::recode(colnames(deconv_results),
                                      "CD8T" = "T cell CD8+", 
                                      "CD8" = "T cell CD8+", 
                                      "CD8T-cells_EPIC" = "T cell CD8+", 
                                      
                                      "CD4T" = "T cell CD4+", 
                                      "CD4T-cells_EPIC" = "T cell CD4+", 
+                                     "T cell CD4+" = "T cell CD4+",
                                      
                                      "B" = "B cell", 
                                      "Bcell" = "B cell", 
