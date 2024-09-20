@@ -77,30 +77,33 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
 #' @export
 #'
 #' @examples
-run_all_methods <- function(methyl_set, array = c('450k','EPIC')){
+run_all_methods <- function(methyl_set, array = c('450k','EPIC'), ...){
   
   res_epidish <- run_epidish(methyl_set)
   res_flowsorted <- run_flowsortedblood(methyl_set, array = array)
   res_methylcc <- run_methylcc(methyl_set, array = array)
-  res_methylresolver <- run_methylresolver(methyl_set)
+  res_methylresolver <- run_methylresolver(methyl_set, ...)
   res_meth_atlas <- run_meth_atlas(methyl_set)
+
+
+  # for methylresolver, combine Tnaive and Tmem to CD4+ cells
+  res_methylresolver <- as.matrix(res_methylresolver$result_fractions)
+  res_methylresolver <- cbind(res_methylresolver, 
+                              "T cell CD4+" = res_methylresolver[, "Tmem"] + res_methylresolver[, "Tnaive"])
   
-  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions, res_meth_atlas)
+  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver, res_meth_atlas)
   names(results) <- c('EpiDISH', "FlowSortedBlood", "MethylCC", "MethylResolver", "MethAtlas")
   
-  tmp <- lapply(1:4, function(i){
+  tmp <- lapply(1:5, function(i){
     result_i <- results[[i]]
-    print(result_i)
     result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
     
     result_i <- rename_cell_types(result_i)
     result_i <- result_i[,colnames(result_i) != "other"]
-    print(result_i)
     
     result_i <- tibble::rownames_to_column(result_i, "sample")
     result_i[['method']] <- names(results)[i]
     
-    print(result_i)
     result_i
   })
   
