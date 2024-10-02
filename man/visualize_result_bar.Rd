@@ -2,13 +2,23 @@
 % Please edit documentation in R/plots.R
 \name{visualize_result_bar}
 \alias{visualize_result_bar}
-\title{Title}
+\title{Function to visualize the results from \code{deconvolute()} as a stacked bar plot.}
 \usage{
-visualize_result_bar(result)
+visualize_result_bar(result, rename = F)
 }
 \arguments{
-\item{result}{}
+\item{result}{result object from \code{deconvolute()}}
+
+\item{rename}{if the cell types should be filtered and renamed for better comparison (default: FALSE).
+Might be most useful for MethAtlas.}
 }
 \description{
-Title
+Function to visualize the results from \code{deconvolute()} as a stacked bar plot.
+}
+\examples{
+mset <- minfiData::MsetEx
+
+res_epidish <- deconvolute(mSet, "epidish")
+visualize_result_bar(res_epidish)
+visualize_result_bar(res_methylcc, rename = TRUE)
 }

@@ -2,15 +2,27 @@
 % Please edit documentation in R/plots.R
 \name{compare_results}
 \alias{compare_results}
-\title{Show scatterplot that compares two results}
+\title{Show scatterplot that compares two results.}
 \usage{
 compare_results(res1, res2)
 }
 \arguments{
-\item{res1}{result1}
+\item{res1}{result1 from \code{deconvolute()}}
 
-\item{res2}{result2}
+\item{res2}{result2 from \code{deconvolute()}}
+}
+\value{
+scatter plots, one for each common cell type
 }
 \description{
-Show scatterplot that compares two results
+Show scatterplot that compares two results.
+}
+\examples{
+mset <- minfiData::MsetEx
+
+res_epidish <- deconvolute(mset, "epidish")
+res_methylcc <- deconvolute(mset, "methylcc")
+
+compare_results(res_methylcc, res_epidish)
+
 }

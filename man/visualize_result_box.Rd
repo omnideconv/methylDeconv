@@ -2,13 +2,23 @@
 % Please edit documentation in R/plots.R
 \name{visualize_result_box}
 \alias{visualize_result_box}
-\title{Title}
+\title{Function to visualize specific cell types of result from \code{deconvolute()} as box plot.}
 \usage{
 visualize_result_box(result, CT = "B")
 }
 \arguments{
-\item{CT}{}
+\item{result}{object from \code{deconvolute()}}
+
+\item{CT}{vector of cell types to plot, have to be valid column names of \code{result}}
 }
 \description{
-Title
+Function to visualize specific cell types of result from \code{deconvolute()} as box plot.
+}
+\examples{
+
+mset <- minfiData::MsetEx
+
+res_epidish <- deconvolute(mSet, "epidish")
+visualize_result_box(res_epidish, CT = c("B", "CD4T"))
+
 }
