@@ -85,7 +85,6 @@ visualize_result_box <- function(result, CT='B') {
   
   df <- reshape::melt(df)
   colnames(df) <- c("CT", "value")
-  print(df)
   # colnames(df) <- c("value")
   # df <- cbind(df, CT = c(CT))
   ggplot2::ggplot(data = df, ggplot2::aes(x=CT,y=value)) +
