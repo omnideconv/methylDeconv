@@ -85,8 +85,6 @@ visualize_result_box <- function(result, CT='B') {
   
   df <- reshape::melt(df)
   colnames(df) <- c("CT", "value")
-  # colnames(df) <- c("value")
-  # df <- cbind(df, CT = c(CT))
   ggplot2::ggplot(data = df, ggplot2::aes(x=CT,y=value)) +
     ggplot2::geom_boxplot(ggplot2::aes(fill=CT)) +
     ggplot2::labs(y = "proportions") +
