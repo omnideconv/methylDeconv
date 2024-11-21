@@ -5,17 +5,14 @@
 \title{Deconvolution}
 \usage{
 deconvolute(
-  meth,
-  unmeth,
+  methyl_set,
   method = deconvolution_methods,
   normalize_results = FALSE,
   ...
 )
 }
 \arguments{
-\item{meth}{methylated data matrix}
-
-\item{unmeth}{unmethylated data matrix}
+\item{methyl_set}{A minfi MethylSet}
 
 \item{method}{A string specifying the method. Supported methods are 'epidish', 'flowsorted', 'methylcc', 'methylresolver'}
 
@@ -35,8 +32,6 @@ Deconvolution
 \examples{
 
 ex_data <- minfiData::MsetEx
-meth <- minfi::getMeth(ex_data)
-unmeth <- minfi::getUnmeth(ex_data)
 
-result <- deconvolute(meth, unmeth, method='epidish')
+result <- deconvolute(ex_data, method='epidish')
 }

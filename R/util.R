@@ -17,6 +17,21 @@ check_input <- function(meth, unmeth){
   }
 }
 
+#' Check input methylSet
+#'
+#' @param methyl_set
+#'
+#'
+#' @examples
+check_input_mset <- function(methyl_set){
+  if(!is(methyl_set, "MethylSet")){
+    stop('Input is not a MethylSet, stopping.')
+  }
+  if(all(is.na(methyl_set))){
+    stop('All entries in the MethylSet are NA, stopping.')
+  }
+}
+
 
 #' Create beta matrix from meth and unmeth matrices
 #'
