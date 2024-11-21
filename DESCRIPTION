@@ -17,7 +17,13 @@ Imports:
     FlowSorted.Blood.EPIC,
     ggplot2,
     methylCC,
-    minfi
+    minfi,
+    reticulate,
+    MethylResolver,
+    data.table,
+    dplyr,
+    reshape,
+    tibble
 Suggests: 
     Biobase,
     FlowSorted.Blood.450k,
@@ -27,7 +33,8 @@ Suggests:
     IlluminaHumanMethylation450kmanifest,
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    minfiData
 Remotes:
     omnideconv/MethylResolver
 Config/testthat/edition: 3

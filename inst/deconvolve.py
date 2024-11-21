@@ -1,4 +1,5 @@
-#!/nfs/home/students/l.willruth/miniconda3/envs/r-methyldeconv/bin/python -u
+## downloaded from https://github.com/nloyfer/meth_atlas
+
 import numpy as np
 import pandas as pd
 from scipy import optimize

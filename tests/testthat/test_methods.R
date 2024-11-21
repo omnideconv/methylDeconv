@@ -1,6 +1,6 @@
-library(methylDeconv)
-library(minfiData)
-library(minfi)
+suppressMessages(library(methylDeconv))
+suppressMessages(library(minfiData))
+suppressMessages(library(minfi))
 
 ex_data <- minfiData::MsetEx
 meth <- minfi::getMeth(ex_data)

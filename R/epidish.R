@@ -42,8 +42,7 @@ run_epidish <- function(methyl_set, mode=c('RPC', 'CBS', 'CP'),
                         reference=c('blood','breast','epithelial'), 
                         maxit = 50, nu.v = c(0.25, 0.5, 0.7), 
                         constraint = c("inequality", "equality")){
-  require(EpiDISH)
-  
+
   check_input_mset(methyl_set)
   beta_matrix <- minfi::getBeta(methyl_set)
   

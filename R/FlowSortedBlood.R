@@ -25,8 +25,7 @@ run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
                                 processMethod = 'preprocessQuantile', probeSelect = c('IDOL','both','any'), cellTypes =c('CD8T','CD4T','NK','Bcell','Mono','Neu'),
                                 referencePlatform = c('IlluminaHumanMethylationEPIC','IlluminaHumanMethylation450k','IlluminaHumanMethylation27k'),
                                 referenceset = NULL, CustomCpGs = NULL, meanPlot = FALSE, verbose = TRUE, lessThanOne = FALSE, cellCounts = NULL, ...){
-  require(FlowSorted.Blood.EPIC)
-  
+
   check_input_mset(methyl_set)
   
   if (length(array) > 1) {

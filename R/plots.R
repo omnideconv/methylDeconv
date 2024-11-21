@@ -40,7 +40,7 @@ visualize_results <- function(result){
     df <- data.frame()
     sapply(names(result), function(m){
       df_tmp <- as.data.frame(result[[m]])
-      df_tmp <- methylDeconv:::rename_cell_types(df_tmp)
+      df_tmp <- rename_cell_types(df_tmp)
       df_tmp$other <- NULL
       df_tmp$method <- m
       df_tmp$sample <- rownames(df_tmp)
@@ -114,7 +114,7 @@ visualize_result_bar <- function(result, rename = F) {
   }
   df <- as.data.frame(result)
   if(rename){
-    df <- methylDeconv:::rename_cell_types(df)
+    df <- rename_cell_types(df)
   }
 
   df$sample <- rownames(df)
@@ -153,8 +153,8 @@ compare_results <- function(res1, res2) {
     return()
   }
   
-  df1 <- methylDeconv:::rename_cell_types(res1)
-  df2 <- methylDeconv:::rename_cell_types(res2)
+  df1 <- rename_cell_types(res1)
+  df2 <- rename_cell_types(res2)
   
   df <- merge(df1, df2, by=0, all = T)
   df$Row.names <- NULL
