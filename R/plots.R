@@ -1,68 +1,90 @@
-#' Title
+#' Function to plot the results from `deconvolute()` or `run_all_methods()` as boxplots.
 #'
-#' @param result list of 4
+#' @param result result from `deconvolute()` or `run_all_methods()`
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' 
+#' mset <- minfiData::MsetEx
+#' 
+#' # one result
+#' res_epidish <- deconvolute(mSet, "epidish")
+#' visualize_results(res_epidish)
+#' 
+#' # all results
+#' results <- run_all_methods(mSet)
+#' visualize_results(res_epidish)
+#' 
+#' # combine mutliple results into a list
+#' res_methylcc <- deconvolute(mset, "methylcc")
+#' visualize_results(list(epidish = res_epidish, 
+#'                        methycc = res_methylcc))
+#' 
 visualize_results <- function(result){
-  if (is.data.frame(result)){
-    ggplot2::ggplot(data = reshape::melt(result), ggplot2::aes(x=variable,y=value)) +
+  if (is.matrix(result)){
+    df <- as.data.frame(result)
+    ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
       ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
       ggplot2::labs(x = "Cell Type", y = "proportions") +
-      ggplot2::theme(legend.position = "none")
-  } else if (!is.list(result)) {
-    message("this function is for visualizing the this packages result object.")
-    return()
-  } else {
+      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 90))
+  } else if (is.data.frame(result)){
+    ggplot2::ggplot(data = reshape::melt(result, id.vars = c("method", "sample")), 
+                    ggplot2::aes(x = variable, y = value)) +
+     ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
+     ggplot2::facet_wrap(~method) +
+     ggplot2::labs(x = "Cell Type", y = "proportions") +
+     ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 90))
+  } else if (is.list(result)){
     df <- data.frame()
-    if (!is.null(result$epidish)) {
-      if (!is.null(result$epidish$rpc)) {
-        df <- rbind(df, cbind(result$epidish$rpc, method = c("EpiDISH-RPC")))
-      }
-      if (!is.null(result$epidish$cbs)) {
-        df <- rbind(df, cbind(result$epidish$cbs, method = c("EpiDISH-CBS")))
-      }
-      if (!is.null(result$epidish$cp)) {
-        df <- rbind(df, cbind(result$epidish$cp, method = c("EpiDISH-CP")))
-      }
-    }
-    if (!is.null(result$tca)) {
-      df <- rbind(df, cbind(result$tca, method = c("TCA")))
-    }
-    if (!is.null(result$flowsortedbloodepic)) {
-      df <- dplyr::bind_rows(df, cbind(result$flowsortedbloodepic, method = c("FlowSortedBloodEPIC")))
-    }
-    if (!is.null(result$methylcc)) {
-      df <- dplyr::bind_rows(df, cbind(result$methylcc, method = c("MethylCC")))
-    }
-    ggplot2::ggplot(data = reshape::melt(df), ggplot2::aes(x=variable,y=value)) +
+    sapply(names(result), function(m){
+      df_tmp <- as.data.frame(result[[m]])
+      df_tmp <- rename_cell_types(df_tmp)
+      df_tmp$other <- NULL
+      df_tmp$method <- m
+      df_tmp$sample <- rownames(df_tmp)
+      df <<- dplyr::bind_rows(df, df_tmp)
+    })
+
+    ggplot2::ggplot(data = reshape::melt(df, id.vars = c("method", "sample")), 
+                    ggplot2::aes(x = variable, y = value)) +
       ggplot2::geom_boxplot(ggplot2::aes(fill=variable)) +
       ggplot2::facet_wrap(~method) +
       ggplot2::labs(x = "Cell Type", y = "proportions") +
-      ggplot2::theme(legend.position = "none")
+      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 90))
+    
+  } else {
+    message("this function is for visualizing the this packages result object.")
+    return()
   }
 }
 
 
-#' Title
+#' Function to visualize specific cell types of result from `deconvolute()` as box plot.
 #'
-#' @param result
-#' @param CT
+#' @param result object from `deconvolute()`
+#' @param CT vector of cell types to plot, have to be valid column names of `result`
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' 
+#' mset <- minfiData::MsetEx
+#'
+#' res_epidish <- deconvolute(mSet, "epidish")
+#' visualize_result_box(res_epidish, CT = c("B", "CD4T"))
+#' 
 visualize_result_box <- function(result, CT='B') {
-  if (!is.data.frame(result)) {
+  if (!is.matrix(result)) {
     message("this function is for visualizing one of the this packages result data frames.")
     return()
   }
   df <- as.data.frame(result[,CT])
-  colnames(df) <- c("value")
-  df <- cbind(df, CT = c(CT))
+  
+  df <- reshape::melt(df)
+  colnames(df) <- c("CT", "value")
   ggplot2::ggplot(data = df, ggplot2::aes(x=CT,y=value)) +
     ggplot2::geom_boxplot(ggplot2::aes(fill=CT)) +
     ggplot2::labs(y = "proportions") +
@@ -70,46 +92,71 @@ visualize_result_box <- function(result, CT='B') {
 }
 
 
-#' Title
+#' Function to visualize the results from `deconvolute()` as a stacked bar plot.
 #'
-#' @param result
+#' @param result result object from `deconvolute()`
+#' @param rename if the cell types should be filtered and renamed for better comparison (default: FALSE).
+#' Might be most useful for MethAtlas. 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-visualize_result_bar <- function(result) {
-  if (!is.data.frame(result)) {
+#' mset <- minfiData::MsetEx
+#' 
+#' res_epidish <- deconvolute(mSet, "epidish")
+#' visualize_result_bar(res_epidish)
+#' visualize_result_bar(res_methylcc, rename = TRUE)
+visualize_result_bar <- function(result, rename = F) {
+  if (!is.matrix(result)) {
     message("this function is for visualizing one of the this packages result data frames.")
     return()
   }
-  result$sample <- rownames(result)
-  ggplot2::ggplot(reshape::melt(result), ggplot2::aes(x = sample, y = value, fill = variable)) +
+  df <- as.data.frame(result)
+  if(rename){
+    df <- rename_cell_types(df)
+  }
+
+  df$sample <- rownames(df)
+  ggplot2::ggplot(reshape::melt(df), ggplot2::aes(x = sample, y = value, fill = variable)) +
     ggplot2::geom_col(position = "fill") +
     ggplot2::xlab("sample") +
-    ggplot2::ylab("Cell Type probability distribution")
+    ggplot2::ylab("Cell Type probability distribution") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
+  
 }
 
 
-#' Show scatterplot that compares two results
+#' Show scatterplot that compares two results.
 #'
-#' @param res1 result1 
-#' @param res2 result2
+#' @param res1 result1 from `deconvolute()`
+#' @param res2 result2 from `deconvolute()`
 #'
-#' @return
+#' @return scatter plots, one for each common cell type
 #' @export
 #'
 #' @examples
+#' mset <- minfiData::MsetEx
+#'
+#' res_epidish <- deconvolute(mset, "epidish")
+#' res_methylcc <- deconvolute(mset, "methylcc")
+#'
+#' compare_results(res_methylcc, res_epidish)
+#'
 compare_results <- function(res1, res2) {
   if (is.null(res1) | is.null(res2)) {
     message("one of the inputs is NULL.")
     return()
   }
-  if (!is.data.frame(res1) | !is.data.frame(res2)) {
-    message("this function is for visualizing two of the this packages result data frames.")
+  if (!is.matrix(res1) | !is.matrix(res2)) {
+    message("this function is for visualizing two of the this packages result matrices.")
     return()
   }
-  df <- merge(res1, res2, by=0, all = T)
+  
+  df1 <- rename_cell_types(res1)
+  df2 <- rename_cell_types(res2)
+  
+  df <- merge(df1, df2, by=0, all = T)
   df$Row.names <- NULL
   df <- df[, grepl(".", names(df), fixed = T)]
   CTs <- c()

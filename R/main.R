@@ -2,14 +2,15 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `EpiDISH`, `FlowSorted`, `MethylCC`, `MethylResolver`
+#' `EpiDISH`, `FlowSorted`, `MethylCC`, `MethylResolver`, `MethAtlas`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods <- c(
-  "EpiDISH" = "epidish", "FlowSorted" = "flowsorted", "MethylCC" = "methylcc", "MethylResolver" = "methylresolver"
+  "EpiDISH" = "epidish", "FlowSorted" = "flowsorted", "MethylCC" = "methylcc", 
+  "MethylResolver" = "methylresolver", "MethAtlas" = "meth_atlas"
 )
 
 
@@ -51,7 +52,8 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
     epidish = run_epidish(methyl_set, ...)$estF,
     flowsorted = run_flowsortedblood(methyl_set, ...)$prop,
     methylcc = as.matrix(run_methylcc(methyl_set, ...)),
-    methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions)
+    methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions),
+    meth_atlas = run_meth_atlas(methyl_set, ...)
   )
   
   if(!is.null(result)){
@@ -68,43 +70,40 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
 
 #' Run all available deconvolution methods
 #'
-#' @param meth methylated data matrix
-#' @param unmeth unmethylated data matrix 
+#' @param methyl_set A minfi MethylSet
 #' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
 #'
 #' @return dataframe with results of all methods
 #' @export
 #'
 #' @examples
-run_all_methods <- function(methyl_set, array = c('450k','EPIC')){
+run_all_methods <- function(methyl_set, array = c('450k','EPIC'), ...){
   
   res_epidish <- run_epidish(methyl_set)
   res_flowsorted <- run_flowsortedblood(methyl_set, array = array)
   res_methylcc <- run_methylcc(methyl_set, array = array)
-  res_methylresolver <- run_methylresolver(methyl_set)
-  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver$result_fractions)
-  names(results) <- c('EpiDISH','FlowSorted','MethylCC','MethylResolver')
+  res_methylresolver <- run_methylresolver(methyl_set, ...)
+  res_meth_atlas <- run_meth_atlas(methyl_set)
+
+
+  # for methylresolver, combine Tnaive and Tmem to CD4+ cells
+  res_methylresolver <- as.matrix(res_methylresolver$result_fractions)
+  res_methylresolver <- cbind(res_methylresolver, 
+                              "T cell CD4+" = res_methylresolver[, "Tmem"] + res_methylresolver[, "Tnaive"])
   
-  tmp <- lapply(1:4, function(i){
+  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver, res_meth_atlas)
+  names(results) <- c('EpiDISH', "FlowSortedBlood", "MethylCC", "MethylResolver", "MethAtlas")
+  
+  tmp <- lapply(1:5, function(i){
     result_i <- results[[i]]
     result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
+    
+    result_i <- rename_cell_types(result_i)
+    result_i <- result_i[,colnames(result_i) != "other"]
+    
     result_i <- tibble::rownames_to_column(result_i, "sample")
     result_i[['method']] <- names(results)[i]
-    if('Bcell' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(B = Bcell)
-    }
-    if('Neu' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Neutro = Neu)
-    }
-    if('CD8' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(CD8T = CD8)
-    }
-    if('Eos' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Eosino = Eos)
-    }
-    if('Mon' %in% colnames(result_i)){
-      result_i <- result_i %>% dplyr::rename(Mono = Mon)
-    }
+    
     result_i
   })
   

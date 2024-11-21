@@ -29,12 +29,8 @@ run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
                          init_param_method = "random", a0init = NULL, a1init = NULL,
                          sig0init = NULL, sig1init = NULL, tauinit = NULL, demo = FALSE,
                          seed = 1){
-  require(methylCC)
-  require(minfi)
-  require(FlowSorted.Blood.450k)
-  require(IlluminaHumanMethylation450kmanifest)
-  
   set.seed(seed)
+  options(matrixStats.useNames.NA = "deprecated")
   
   check_input_mset(methyl_set)
   

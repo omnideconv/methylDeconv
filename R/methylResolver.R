@@ -15,8 +15,6 @@
 run_methylresolver <- function(methyl_set, doPar = F, numCores = 1, alpha = seq(0.5,0.9,by = 0.05),
                                absolute = TRUE, purityModel = MethylResolver::RFmodel, seed = 1){
   
-  require(MethylResolver)
-  
   set.seed(seed)
   
   check_input_mset(methyl_set) 

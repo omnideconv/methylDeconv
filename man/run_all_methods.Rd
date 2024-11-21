@@ -4,14 +4,12 @@
 \alias{run_all_methods}
 \title{Run all available deconvolution methods}
 \usage{
-run_all_methods(methyl_set, array = c("450k", "EPIC"))
+run_all_methods(methyl_set, array = c("450k", "EPIC"), ...)
 }
 \arguments{
+\item{methyl_set}{A minfi MethylSet}
+
 \item{array}{type of methylation array that was used. possible options are '450k' and 'EPIC'}
-
-\item{meth}{methylated data matrix}
-
-\item{unmeth}{unmethylated data matrix}
 }
 \value{
 dataframe with results of all methods

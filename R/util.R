@@ -67,3 +67,90 @@ normalize_deconv_results <- function(deconv_result) {
   }
   return(deconv_result)
 }
+
+
+#' Rename Cell Types in Deconvolution Results
+#'
+#' Renames the cell type columns in deconvolution results to standardized names.
+#' It uses predefined mappings to replace specific cell type names with more 
+#' consistent labels (e.g., "CD8T" to "T cell CD8+"). Unrecognized names are labeled as "other".
+#'
+#' @param deconv_results A data frame containing deconvolution results with cell type columns.
+#' @return A data frame with renamed cell type columns.
+#' @export
+#' 
+#' @examples
+#' deconv_results <- data.frame(CD8T = c(0.1, 0.2), CD4T = c(0.3, 0.4))
+#' rename_cell_types(deconv_results)
+rename_cell_types <- function(deconv_results){
+  colnames(deconv_results) <- dplyr::recode(colnames(deconv_results),
+                                     "CD8T" = "T cell CD8+", 
+                                     "CD8" = "T cell CD8+", 
+                                     "CD8T-cells_EPIC" = "T cell CD8+", 
+                                     
+                                     "CD4T" = "T cell CD4+", 
+                                     "CD4T-cells_EPIC" = "T cell CD4+", 
+                                     "T cell CD4+" = "T cell CD4+",
+                                     
+                                     "B" = "B cell", 
+                                     "Bcell" = "B cell", 
+                                     "B-cells_EPIC" = "B cell",
+                                     
+                                     "NK" = "NK cell",
+                                     "NK-cells_EPIC" = "NK cell",
+                                     
+                                     "Mono" = "Monocyte", 
+                                     "Mon" = "Monocyte",
+                                     "Monocytes_EPIC" = "Monocyte",
+                                     
+                                     "Neu" = "Neutrophil",
+                                     "Neutro" = "Neutrophil",
+                                     "Neutrophils" = "Neutrophil",
+                                     "Neutrophils_EPIC" = "Neutrophil",
+                                           
+                                     .default = "other"
+  )
+  
+  return(deconv_results)
+}
+
+
+#' Initialize Python Environment with Miniconda
+#'
+#' Sets up a Miniconda environment with Python 3.10 for the 'r-methyldeconv' package.
+#' Installs Miniconda if not present, creates the 'r-methyldeconv' Conda environment 
+#' if it doesn't exist, and installs required Python packages (`numpy`, `pandas`, 
+#' `scipy`, `matplotlib`).
+#'
+#' @details 
+#' - Installs Miniconda if missing.
+#' - Creates 'r-methyldeconv' environment with Python 3.10 and installs dependencies.
+#' - Activates the environment and displays Python configuration.
+#'
+#' @import reticulate
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#'   init_python()
+#' }
+init_python <- function(){
+  if (!dir.exists(reticulate::miniconda_path())) {
+    message("Setting python version in miniconda to be 3.10")
+    Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.10)
+    message("Setting up miniconda environment..")
+    suppressMessages(reticulate::install_miniconda())
+  }
+  
+  if (!(reticulate::condaenv_exists("r-methyldeconv"))) {
+    message("Create conda evironment 'r-methyldeconv' for meth_atlas...")
+    reticulate::conda_create("r-methyldeconv", python_version = "3.10")
+    message("Install all python dependencies...")
+    reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
+  }
+
+  
+  reticulate::use_condaenv(condaenv = "r-methyldeconv", required = FALSE)
+  reticulate::py_config()
+  
+}
