@@ -51,33 +51,6 @@
 
 </dl></div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">mset</span> <span class="op">&lt;-</span> <span class="fu">minfiData</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/minfiData/man/MsetEx.html" class="external-link">MsetEx</a></span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># one result</span></span></span>
-<span class="r-in"><span><span class="va">res_epidish</span> <span class="op">&lt;-</span> <span class="fu"><a href="deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">mSet</span>, <span class="st">"epidish"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'mSet' not found</span>
-<span class="r-in"><span><span class="fu">visualize_results</span><span class="op">(</span><span class="va">res_epidish</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'res_epidish' not found</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># all results</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="run_all_methods.html">run_all_methods</a></span><span class="op">(</span><span class="va">mSet</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'mSet' not found</span>
-<span class="r-in"><span><span class="fu">visualize_results</span><span class="op">(</span><span class="va">res_epidish</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'res_epidish' not found</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># combine mutliple results into a list</span></span></span>
-<span class="r-in"><span><span class="va">res_methylcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">mset</span>, <span class="st">"methylcc"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 450k was chosen as default for "array"</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'object' in selecting a method for function 'updateObject': object 'FlowSorted.Blood.450k' not found</span>
-<span class="r-in"><span><span class="fu">visualize_results</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>epidish <span class="op">=</span> <span class="va">res_epidish</span>, </span></span>
-<span class="r-in"><span>                       methycc <span class="op">=</span> <span class="va">res_methylcc</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'res_epidish' not found</span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
