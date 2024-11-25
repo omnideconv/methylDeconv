@@ -16,10 +16,8 @@
 #' @param cellCounts If cell counts are available (CBC, of flow sort) add a vector of lenght equal to the samples being deconvolved
 #' @param ... Other arguments for preprocessquantile or other normalizations
 #'
-#' @return
 #' @export
 #'
-#' @examples
 run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
                                 compositeCellType=c('Blood','CordBloodCombined','CordBlood','CordBloodNorway','CordTissueAndBlood','DLPFC'),
                                 processMethod = 'preprocessQuantile', probeSelect = c('IDOL','both','any'), cellTypes =c('CD8T','CD4T','NK','Bcell','Mono','Neu'),
@@ -27,6 +25,7 @@ run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
                                 referenceset = NULL, CustomCpGs = NULL, meanPlot = FALSE, verbose = TRUE, lessThanOne = FALSE, cellCounts = NULL, ...){
 
   check_input_mset(methyl_set)
+  options(matrixStats.useNames.NA = "deprecated")
   
   if (length(array) > 1) {
     array <- array[1]
@@ -54,9 +53,7 @@ run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
     minfi::`annotation`(methyl_set) <- c('array'='IlluminaHumanMethylationEPIC',
                                          'annotation'='ilm10b4.hg19')
   }
-  genomic_methyl_set <- minfi::mapToGenome(methyl_set)
-  
-  
+
   result_fsb <- FlowSorted.Blood.EPIC::estimateCellCounts2(rgSet = methyl_set,
                                                            compositeCellType = compositeCellType,
                                                            processMethod = processMethod, 

@@ -21,7 +21,6 @@
 #' @return A object of the class estimatecc that contains information about the cell composition estimation (in the summary slot) and the cell composition estimates themselves (in the cell_counts slot).
 #' @export
 #'
-#' @examples
 run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
                          find_dmrs_object = NULL, verbose = TRUE,
                          epsilon = 0.01, max_iter = 100, take_intersection = FALSE,
@@ -31,6 +30,8 @@ run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
                          seed = 1){
   set.seed(seed)
   options(matrixStats.useNames.NA = "deprecated")
+  require(FlowSorted.Blood.450k)
+  require(FlowSorted.Blood.EPIC)
   
   check_input_mset(methyl_set)
   

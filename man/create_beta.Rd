@@ -2,18 +2,16 @@
 % Please edit documentation in R/util.R
 \name{create_beta}
 \alias{create_beta}
-\title{Create beta matrix from meth and unmeth matrices}
+\title{Create beta matrix from a methylset matrices}
 \usage{
-create_beta(meth, unmeth)
+create_beta(methyl_set)
 }
 \arguments{
-\item{meth}{}
-
-\item{unmeth}{}
+\item{methyl_set}{}
 }
 \value{
 beta matrix
 }
 \description{
-Create beta matrix from meth and unmeth matrices
+Create beta matrix from a methylset matrices
 }

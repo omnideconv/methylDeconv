@@ -2,25 +2,8 @@
 #'
 #' @param result result from `deconvolute()` or `run_all_methods()`
 #'
-#' @return
 #' @export
 #'
-#' @examples
-#' 
-#' mset <- minfiData::MsetEx
-#' 
-#' # one result
-#' res_epidish <- deconvolute(mSet, "epidish")
-#' visualize_results(res_epidish)
-#' 
-#' # all results
-#' results <- run_all_methods(mSet)
-#' visualize_results(res_epidish)
-#' 
-#' # combine mutliple results into a list
-#' res_methylcc <- deconvolute(mset, "methylcc")
-#' visualize_results(list(epidish = res_epidish, 
-#'                        methycc = res_methylcc))
 #' 
 visualize_results <- function(result){
   if (is.matrix(result)){
@@ -66,15 +49,8 @@ visualize_results <- function(result){
 #' @param result object from `deconvolute()`
 #' @param CT vector of cell types to plot, have to be valid column names of `result`
 #'
-#' @return
 #' @export
 #'
-#' @examples
-#' 
-#' mset <- minfiData::MsetEx
-#'
-#' res_epidish <- deconvolute(mSet, "epidish")
-#' visualize_result_box(res_epidish, CT = c("B", "CD4T"))
 #' 
 visualize_result_box <- function(result, CT='B') {
   if (!is.matrix(result)) {
@@ -98,15 +74,7 @@ visualize_result_box <- function(result, CT='B') {
 #' @param rename if the cell types should be filtered and renamed for better comparison (default: FALSE).
 #' Might be most useful for MethAtlas. 
 #'
-#' @return
 #' @export
-#'
-#' @examples
-#' mset <- minfiData::MsetEx
-#' 
-#' res_epidish <- deconvolute(mSet, "epidish")
-#' visualize_result_bar(res_epidish)
-#' visualize_result_bar(res_methylcc, rename = TRUE)
 visualize_result_bar <- function(result, rename = F) {
   if (!is.matrix(result)) {
     message("this function is for visualizing one of the this packages result data frames.")
@@ -135,13 +103,6 @@ visualize_result_bar <- function(result, rename = F) {
 #' @return scatter plots, one for each common cell type
 #' @export
 #'
-#' @examples
-#' mset <- minfiData::MsetEx
-#'
-#' res_epidish <- deconvolute(mset, "epidish")
-#' res_methylcc <- deconvolute(mset, "methylcc")
-#'
-#' compare_results(res_methylcc, res_epidish)
 #'
 compare_results <- function(res1, res2) {
   if (is.null(res1) | is.null(res2)) {

@@ -8,17 +8,14 @@
 #' @param purityModel Random Forest model to predict mixture purity (unknown content) which allows the calculation of absolute cell type fractions. Required if absolute is TRUE. Default is our RF model trained on the consensus purity estimate (CPE) using TCGA data.  
 #' @param seed fixed seed to account for RNG influences
 #'
-#' @return 
 #' @export
 #'
-#' @examples
-run_methylresolver <- function(methyl_set, doPar = F, numCores = 1, alpha = seq(0.5,0.9,by = 0.05),
+run_methylresolver <- function(beta_matrix, doPar = F, numCores = 1, alpha = seq(0.5,0.9,by = 0.05),
                                absolute = TRUE, purityModel = MethylResolver::RFmodel, seed = 1){
   
   set.seed(seed)
   
-  check_input_mset(methyl_set) 
-  beta_matrix <- minfi::getBeta(methyl_set)
+  beta_matrix <- check_input_beta(beta_matrix)
   
   if (length(alpha) > 1){
     warning("MethylResolver may fail if multiple alpha values are provided. If this occurs, specify a single alpha value between 0.5 and 1.",

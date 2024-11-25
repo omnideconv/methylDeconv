@@ -15,6 +15,7 @@ Depends:
 Imports:
     EpiDISH,
     FlowSorted.Blood.EPIC,
+    FlowSorted.Blood.450k,
     ggplot2,
     methylCC,
     minfi,
@@ -26,7 +27,6 @@ Imports:
     tibble
 Suggests: 
     Biobase,
-    FlowSorted.Blood.450k,
     IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
     IlluminaHumanMethylationEPICmanifest,
     IlluminaHumanMethylation450kanno.ilmn12.hg19,

@@ -12,21 +12,3 @@ visualize_results(result)
 \description{
 Function to plot the results from \code{deconvolute()} or \code{run_all_methods()} as boxplots.
 }
-\examples{
-
-mset <- minfiData::MsetEx
-
-# one result
-res_epidish <- deconvolute(mSet, "epidish")
-visualize_results(res_epidish)
-
-# all results
-results <- run_all_methods(mSet)
-visualize_results(res_epidish)
-
-# combine mutliple results into a list
-res_methylcc <- deconvolute(mset, "methylcc")
-visualize_results(list(epidish = res_epidish, 
-                       methycc = res_methylcc))
-
-}

@@ -1,10 +1,28 @@
+
+#' Check input beta matrix
+#'
+#' @param beta_matrix beta matrix
+#'
+#' @return same matrix, but fixed
+#' @export
+#'
+check_input_beta <- function(beta_matrix){
+  beta_matrix <- as.matrix(beta_matrix)
+  
+  if(any(is.na(beta_matrix))){
+    n_na <- length(which(is.na(beta_matrix)))
+    warning(paste0(n_na, ' NA values detected in your beta matrix. Replacing them with 0.5.'))
+    beta_matrix[which(is.na(beta_matrix))] <- 0.5
+  }
+  
+  return(beta_matrix)
+}
+
 #' Check input matrices
 #'
 #' @param meth 
 #' @param unmeth 
 #'
-#'
-#' @examples
 check_input <- function(meth, unmeth){
   if(!all(dim(meth) == dim(unmeth))){
     stop('Meth and Unmeth matrices have different dimensions, stopping.')
@@ -22,7 +40,6 @@ check_input <- function(meth, unmeth){
 #' @param methyl_set
 #'
 #'
-#' @examples
 check_input_mset <- function(methyl_set){
   if(!is(methyl_set, "MethylSet")){
     stop('Input is not a MethylSet, stopping.')
@@ -33,19 +50,34 @@ check_input_mset <- function(methyl_set){
 }
 
 
-#' Create beta matrix from meth and unmeth matrices
+#' Create beta matrix from a methylset matrices
 #'
-#' @param meth 
-#' @param unmeth 
+#' @param methyl_set 
 #'
 #' @return beta matrix
 #'
-#' @examples
-create_beta <- function(meth, unmeth){
-  methyl_set <- minfi::MethylSet(Meth = meth, Unmeth = unmeth)
+create_beta <- function(methyl_set){
   ratio_set <- minfi::ratioConvert(methyl_set)
   
   return(minfi::getBeta(ratio_set))
+}
+
+create_genomicMethylSet <- function(beta_matrix, array_type){
+  
+  genomic_ratio_set <- makeGenomicRatioSetFromMatrix(
+    mat = beta_matrix,
+    pData = NULL
+  )
+  
+  if(array_type == '450k'){
+    minfi::`annotation`(genomic_ratio_set) <- c('array'='IlluminaHumanMethylation450k',
+                                                'annotation'='ilmn12.hg19')
+  }else if(array_type == 'EPIC'){
+    minfi::`annotation`(genomic_ratio_set) <- c('array'='IlluminaHumanMethylationEPIC',
+                                                'annotation'='ilm10b4.hg19')
+  }
+  
+  genomic_methyl_set <- as(genomic_ratio_set, "GenomicMethylSet")
 }
 
 

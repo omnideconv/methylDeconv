@@ -5,7 +5,7 @@
 \title{run EpiDISH}
 \usage{
 run_epidish(
-  methyl_set,
+  beta_matrix,
   mode = c("RPC", "CBS", "CP"),
   reference = c("blood", "breast", "epithelial"),
   maxit = 50,
@@ -14,8 +14,6 @@ run_epidish(
 )
 }
 \arguments{
-\item{methyl_set}{A minfi MethylSet}
-
 \item{mode}{Choice of a reference-based method ('RPC','CBS','CP')}
 
 \item{reference}{A matrix of reference 'centroids', i.e. representative molecular profiles,
@@ -36,6 +34,8 @@ will be automatically returned.}
 normalization constraint. The default is 'inequality' (i.e sum of weights
 adds to a number less or equal than 1), which was implemented in
 Houseman et al (2012).}
+
+\item{methyl_set}{A minfi MethylSet}
 }
 \value{
 CP-mode

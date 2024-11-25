@@ -17,12 +17,3 @@ scatter plots, one for each common cell type
 \description{
 Show scatterplot that compares two results.
 }
-\examples{
-mset <- minfiData::MsetEx
-
-res_epidish <- deconvolute(mset, "epidish")
-res_methylcc <- deconvolute(mset, "methylcc")
-
-compare_results(res_methylcc, res_epidish)
-
-}

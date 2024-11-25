@@ -6,11 +6,9 @@
 #' @param temp_dir Path to directory where the beta matrix will be saved as a csv file.
 #' @param out_dir Path to output directory. Output will be a csv file and a png representing the cell type fractions.
 #' 
-#' @return
 #' @export
 #'
-#' @examples
-run_meth_atlas <- function(methyl_set, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
+run_meth_atlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
   # check if python is installed, else install
   init_python()
   
@@ -30,9 +28,9 @@ run_meth_atlas <- function(methyl_set, reference_atlas = system.file("reference_
   }
   
   # create a beta matrix from the methyl_set and save to temporary folder
-  beta <- minfi::getBeta(methyl_set)
+  beta_matrix <- check_input_beta(beta_matrix)
   beta_path = paste0(tmp_dir, "/beta.csv")
-  write.csv(beta, beta_path)
+  write.csv(beta_matrix, beta_path)
   
   # run meth_atlas
   system(paste("python", system.file("deconvolve.py", package = "methylDeconv")," -a", reference_atlas, beta_path, "--out", out_dir))

@@ -5,21 +5,21 @@
 \title{run meth_atlas}
 \usage{
 run_meth_atlas(
-  methyl_set,
+  beta_matrix,
   reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"),
   temp_dir = NULL,
   out_dir = NULL
 )
 }
 \arguments{
-\item{methyl_set}{A minfi MethylSet}
-
 \item{reference_atlas}{Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
 The default reference file is stored in 'inst/reference_atlas.csv'.}
 
 \item{temp_dir}{Path to directory where the beta matrix will be saved as a csv file.}
 
 \item{out_dir}{Path to output directory. Output will be a csv file and a png representing the cell type fractions.}
+
+\item{methyl_set}{A minfi MethylSet}
 }
 \description{
 run meth_atlas

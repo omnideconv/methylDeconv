@@ -37,15 +37,14 @@
 #' reference matrix.
 #' @export
 #'
-#' @examples
-run_epidish <- function(methyl_set, mode=c('RPC', 'CBS', 'CP'), 
+run_epidish <- function(beta_matrix,
+                        mode=c('RPC', 'CBS', 'CP'), 
                         reference=c('blood','breast','epithelial'), 
                         maxit = 50, nu.v = c(0.25, 0.5, 0.7), 
                         constraint = c("inequality", "equality")){
-
-  check_input_mset(methyl_set)
-  beta_matrix <- minfi::getBeta(methyl_set)
   
+  beta_matrix <- check_input_beta(beta_matrix)
+
   if (length(mode) > 1) {
     mode <- mode[1]
     message(paste0(mode, " was chosen as default for \"mode\""))

@@ -14,11 +14,3 @@ visualize_result_box(result, CT = "B")
 \description{
 Function to visualize specific cell types of result from \code{deconvolute()} as box plot.
 }
-\examples{
-
-mset <- minfiData::MsetEx
-
-res_epidish <- deconvolute(mSet, "epidish")
-visualize_result_box(res_epidish, CT = c("B", "CD4T"))
-
-}

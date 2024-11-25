@@ -18,7 +18,7 @@ deconvolution_methods <- c(
 #'
 #' @param methyl_set A minfi MethylSet
 #' @param method A string specifying the method. Supported methods are 'epidish', 'flowsorted', 'methylcc', 'methylresolver'
-#' @param normalize_results   Whether the deconvolution results should be normalized.
+#' @param scale_results   Whether the deconvolution results should be rescaled.
 #'   Negative values will be put to 0, and the estimates will be normalized to sum to 1.
 #'   Defaults to FALSE.
 #' @param ... Additional parameters, passed to the algorithm used. See individual method documentations for details.
@@ -32,7 +32,9 @@ deconvolution_methods <- c(
 #' ex_data <- minfiData::MsetEx
 #' 
 #' result <- deconvolute(ex_data, method='epidish')
-deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_results = FALSE, ...){
+deconvolute <- function(methyl_set, method=deconvolution_methods, scale_results = FALSE, ...){
+  
+  options(matrixStats.useNames.NA = "deprecated")
   
   if (length(method) > 1) {
     stop(
@@ -45,20 +47,22 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
     method <- deconvolution_methods[[method]]
   }
   
+  check_input_mset(methyl_set)
+  beta_matrix <- create_beta(methyl_set)
+  
   method <- tolower(method)
   
-  
   result <- switch (method,
-    epidish = run_epidish(methyl_set, ...)$estF,
+    epidish = run_epidish(beta_matrix, ...)$estF,
     flowsorted = run_flowsortedblood(methyl_set, ...)$prop,
     methylcc = as.matrix(run_methylcc(methyl_set, ...)),
-    methylresolver = as.matrix(run_methylresolver(methyl_set, ...)$result_fractions),
-    meth_atlas = run_meth_atlas(methyl_set, ...)
+    methylresolver = as.matrix(run_methylresolver(beta_matrix, ...)$result_fractions),
+    meth_atlas = run_meth_atlas(beta_matrix, ...)
   )
   
   if(!is.null(result)){
-    # Normalize the results to sum up to 1
-    if (normalize_results) {
+    # Scale the results to sum up to 1
+    if (scale_results) {
       deconv <- normalize_deconv_results(result)
     }
     # Alphabetical order of celltypes
@@ -76,7 +80,6 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, normalize_resu
 #' @return dataframe with results of all methods
 #' @export
 #'
-#' @examples
 run_all_methods <- function(methyl_set, array = c('450k','EPIC'), ...){
   
   res_epidish <- run_epidish(methyl_set)

@@ -15,10 +15,3 @@ Might be most useful for MethAtlas.}
 \description{
 Function to visualize the results from \code{deconvolute()} as a stacked bar plot.
 }
-\examples{
-mset <- minfiData::MsetEx
-
-res_epidish <- deconvolute(mSet, "epidish")
-visualize_result_bar(res_epidish)
-visualize_result_bar(res_methylcc, rename = TRUE)
-}

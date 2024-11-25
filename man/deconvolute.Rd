@@ -7,7 +7,7 @@
 deconvolute(
   methyl_set,
   method = deconvolution_methods,
-  normalize_results = FALSE,
+  scale_results = FALSE,
   ...
 )
 }
@@ -16,7 +16,7 @@ deconvolute(
 
 \item{method}{A string specifying the method. Supported methods are 'epidish', 'flowsorted', 'methylcc', 'methylresolver'}
 
-\item{normalize_results}{Whether the deconvolution results should be normalized.
+\item{scale_results}{Whether the deconvolution results should be rescaled.
 Negative values will be put to 0, and the estimates will be normalized to sum to 1.
 Defaults to FALSE.}
 
