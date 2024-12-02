@@ -8,16 +8,19 @@ run_meth_atlas(
   beta_matrix,
   reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"),
   temp_dir = NULL,
-  out_dir = NULL
+  out_dir = NULL,
+  use_epic_reference = FALSE
 )
 }
 \arguments{
 \item{reference_atlas}{Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
-The default reference file is stored in 'inst/reference_atlas.csv'.}
+The default (tissue-wide) reference file is stored in 'inst/reference_atlas.csv'.}
 
 \item{temp_dir}{Path to directory where the beta matrix will be saved as a csv file.}
 
 \item{out_dir}{Path to output directory. Output will be a csv file and a png representing the cell type fractions.}
+
+\item{use_epic_reference}{The MethAtlas has a whole-tissue reference or a immunecell-specific reference that is optimized for EPIC arrays (which is a subset of the whole-tissue reference)}
 
 \item{methyl_set}{A minfi MethylSet}
 }

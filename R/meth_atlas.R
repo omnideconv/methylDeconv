@@ -2,13 +2,14 @@
 #'
 #' @param methyl_set A minfi MethylSet
 #' @param reference_atlas Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
-#'                        The default reference file is stored in 'inst/reference_atlas.csv'. 
+#'                        The default (tissue-wide) reference file is stored in 'inst/reference_atlas.csv'. 
 #' @param temp_dir Path to directory where the beta matrix will be saved as a csv file.
 #' @param out_dir Path to output directory. Output will be a csv file and a png representing the cell type fractions.
+#' @param use_epic_reference The MethAtlas has a whole-tissue reference or a immunecell-specific reference that is optimized for EPIC arrays (which is a subset of the whole-tissue reference)
 #' 
 #' @export
 #'
-run_meth_atlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL){
+run_meth_atlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL, use_epic_reference=FALSE){
   # check if python is installed, else install
   init_python()
   
@@ -31,6 +32,11 @@ run_meth_atlas <- function(beta_matrix, reference_atlas = system.file("reference
   beta_matrix <- check_input_beta(beta_matrix)
   beta_path = paste0(tmp_dir, "/beta.csv")
   write.csv(beta_matrix, beta_path)
+  
+  # subset reference if applicable
+  if(use_epic_reference){
+    reference_atlas <- system.file("reference_atlas_epic.csv", package = "methylDeconv")
+  }
   
   # run meth_atlas
   system(paste("python", system.file("deconvolve.py", package = "methylDeconv")," -a", reference_atlas, beta_path, "--out", out_dir))
