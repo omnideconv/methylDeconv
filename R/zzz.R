@@ -9,8 +9,8 @@ NULL
   
   # We ensure to have reticulate
   if (!dir.exists(reticulate::miniconda_path())) {
-    message("Setting python version in miniconda to be 3.10")
-    Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.10)
+    message("Setting python version in miniconda to be 3.8")
+    Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.8)
     message("Setting up miniconda environment..")
     suppressMessages(reticulate::install_miniconda())
   }
@@ -18,7 +18,7 @@ NULL
   # We ensure to have the r-methyldeconv env
   if (!("r-methyldeconv" %in% reticulate::conda_list()$name)) {
     message("Create conda evironment 'r-methyldeconv' for MethAtlas...")
-    reticulate::conda_create("r-methyldeconv", python_version = "3.10")
+    reticulate::conda_create("r-methyldeconv", python_version = "3.8")
     message("Install all python dependencies...")
     reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
   }
