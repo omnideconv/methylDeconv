@@ -23,6 +23,7 @@ Imports:
     MethylResolver,
     data.table,
     dplyr,
+    tidyr,
     reshape,
     tibble
 Suggests: 

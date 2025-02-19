@@ -103,19 +103,16 @@ normalize_deconv_results <- function(deconv_result) {
 
 #' Rename Cell Types in Deconvolution Results
 #'
-#' Renames the cell type columns in deconvolution results to standardized names.
+#' Renames a set of cell type names to standardized names.
 #' It uses predefined mappings to replace specific cell type names with more 
 #' consistent labels (e.g., "CD8T" to "T cell CD8+"). Unrecognized names are labeled as "other".
 #'
-#' @param deconv_results A data frame containing deconvolution results with cell type columns.
-#' @return A data frame with renamed cell type columns.
+#' @param input_celltypes list of cell types
+#' @return a new list of cell types with controlled vocabulary
 #' @export
 #' 
-#' @examples
-#' deconv_results <- data.frame(CD8T = c(0.1, 0.2), CD4T = c(0.3, 0.4))
-#' rename_cell_types(deconv_results)
-rename_cell_types <- function(deconv_results){
-  colnames(deconv_results) <- dplyr::recode(colnames(deconv_results),
+rename_cell_types <- function(input_celltypes){
+  output_celltypes <- dplyr::recode(input_celltypes,
                                      "CD8T" = "T cell CD8+", 
                                      "CD8" = "T cell CD8+", 
                                      "CD8T-cells_EPIC" = "T cell CD8+", 
@@ -143,7 +140,7 @@ rename_cell_types <- function(deconv_results){
                                      .default = "other"
   )
   
-  return(deconv_results)
+  return(output_celltypes)
 }
 
 

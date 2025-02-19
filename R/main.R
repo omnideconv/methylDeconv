@@ -67,70 +67,63 @@ deconvolute <- function(methyl_set, method=deconvolution_methods, scale_results 
     }
     # Alphabetical order of celltypes
     result <- result[, order(colnames(result)), drop = FALSE]
+    
+    # transform to dataframe
+    result <- result |> data.frame(check.names = F)
   }
   
   return(result)
 }
 
-#' Run selected set of methods and aggregate results
+#' Run selected set of methods and average results
 #'
 #' @param methyl_set A minfi MethylSet
 #' @param array type of methylation array that was used. possible options are '450k' and 'EPIC'
 #' @param methods list of methods (>1) that will be applied to the methyl set
-#' @param aggregation_method how should deconvolution estimates be combined (default is mean)
 #' @param scale_results   Whether the deconvolution results should be rescaled.
 #'   Negative values will be set to 0, and the estimates will be normalized to sum to 1 per sample.
 #'   Defaults to FALSE.
+#' @param ... Additional parameters, passed to the algorithm used. See individual method documentations for details.
 #'   
 #' @return dataframe with results of all selected methods as well as the combined estimates
 #' @export
-#'
-deconvolute_combined <- function(methyl_set, array = c('450k','EPIC'), methods, aggregation_method = 'mean', scale_results = FALSE){
+#' @examples 
+#' 
+#' ex_data <- minfiData::MsetEx
+#' 
+#' result <- deconvolute_combined(ex_data, methods=c('epidish','houseman'))
+deconvolute_combined <- function(methyl_set, array = c('450k','EPIC'), methods, scale_results = FALSE, ...){
   
-  if(any(!method %in% deconvolution_methods)){
+  if(any(!methods %in% deconvolution_methods)){
     stop(paste0('At least one of your selected methods is not supported by methyldeconv. Please check your spelling, supported methods are: ',
                 'epidish, houseman, methylcc, methylresolver, methatlas'))
   }
   
   result <- lapply(methods, function(m){
-    deconvolute(methyl_set = methyl_set, method = m, scale_results = scale_results)
+    df <- deconvolute(methyl_set = methyl_set, method = m, scale_results = scale_results, ...) |>
+      tibble::rownames_to_column(var = 'sample')
+    
+    # for methylresolver, combine Tnaive and Tmem to CD4+ cells
+    if(m == 'methylresolver'){
+      df <- cbind(df, "T cell CD4+" = df[, "Tmem"] + df[, "Tnaive"])
+    }
+
+    return(df)
   })
   
-  # TODO complete this
+  names(result) <- methods
+  method_results <- dplyr::bind_rows(result, .id = 'method') |>
+    tidyr::pivot_longer(cols = -c(sample, method), names_to = 'celltype') |>
+    dplyr::mutate(celltype = rename_cell_types(celltype)) |>
+    dplyr::filter(!is.na(value)) 
   
   
-  methyldeconv_df <- methyldeconv_df |> 
-    group_by(sample, celltype_clean) |> 
-    dplyr::summarize(mean_value = mean(value), .groups = 'drop') |>
-    group_by(sample) |> 
-    do(mutate(., value = mean_value / sum(mean_value))) |>
-    ungroup() |>
-    mutate(method = 'combined') |> 
-    bind_rows(methyldeconv_df) 
+  combined_results <- method_results |>
+    dplyr::group_by(sample, celltype) |>
+    dplyr::summarize(value = mean(value), .groups = 'drop') |>
+    mutate(method = 'aggregated')
+  
+  full_results <- bind_rows(method_results, combined_results)
 
-
-  # for methylresolver, combine Tnaive and Tmem to CD4+ cells
-  res_methylresolver <- as.matrix(res_methylresolver$result_fractions)
-  res_methylresolver <- cbind(res_methylresolver, 
-                              "T cell CD4+" = res_methylresolver[, "Tmem"] + res_methylresolver[, "Tnaive"])
-  
-  results <- list(res_epidish$estF, res_flowsorted$prop, res_methylcc, res_methylresolver, res_meth_atlas)
-  names(results) <- c('EpiDISH', "Houseman", "MethylCC", "MethylResolver", "MethAtlas")
-  
-  tmp <- lapply(1:5, function(i){
-    result_i <- results[[i]]
-    result_i <- data.frame(result_i[, order(colnames(result_i)), drop = FALSE], check.names = F)
-    
-    result_i <- rename_cell_types(result_i)
-    result_i <- result_i[,colnames(result_i) != "other"]
-    
-    result_i <- tibble::rownames_to_column(result_i, "sample")
-    result_i[['method']] <- names(results)[i]
-    
-    result_i
-  })
-  
-  combined_result <- data.table::rbindlist(tmp, fill = TRUE)
-  
-  return(combined_result)
+  return(full_results)
 }

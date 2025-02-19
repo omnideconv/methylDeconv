@@ -2,14 +2,14 @@
 % Please edit documentation in R/main.R
 \name{deconvolute_combined}
 \alias{deconvolute_combined}
-\title{Run selected set of methods and aggregate results}
+\title{Run selected set of methods and average results}
 \usage{
 deconvolute_combined(
   methyl_set,
   array = c("450k", "EPIC"),
   methods,
-  aggregation_method = "mean",
-  scale_results = FALSE
+  scale_results = FALSE,
+  ...
 )
 }
 \arguments{
@@ -19,15 +19,21 @@ deconvolute_combined(
 
 \item{methods}{list of methods (>1) that will be applied to the methyl set}
 
-\item{aggregation_method}{how should deconvolution estimates be combined (default is mean)}
-
 \item{scale_results}{Whether the deconvolution results should be rescaled.
 Negative values will be set to 0, and the estimates will be normalized to sum to 1 per sample.
 Defaults to FALSE.}
+
+\item{...}{Additional parameters, passed to the algorithm used. See individual method documentations for details.}
 }
 \value{
 dataframe with results of all selected methods as well as the combined estimates
 }
 \description{
-Run selected set of methods and aggregate results
+Run selected set of methods and average results
+}
+\examples{
+
+ex_data <- minfiData::MsetEx
+
+result <- deconvolute_combined(ex_data, methods=c('epidish','houseman'))
 }

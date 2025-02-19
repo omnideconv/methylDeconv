@@ -4,20 +4,16 @@
 \alias{rename_cell_types}
 \title{Rename Cell Types in Deconvolution Results}
 \usage{
-rename_cell_types(deconv_results)
+rename_cell_types(input_celltypes)
 }
 \arguments{
-\item{deconv_results}{A data frame containing deconvolution results with cell type columns.}
+\item{input_celltypes}{list of cell types}
 }
 \value{
-A data frame with renamed cell type columns.
+a new list of cell types with controlled vocabulary
 }
 \description{
-Renames the cell type columns in deconvolution results to standardized names.
+Renames a set of cell type names to standardized names.
 It uses predefined mappings to replace specific cell type names with more
 consistent labels (e.g., "CD8T" to "T cell CD8+"). Unrecognized names are labeled as "other".
-}
-\examples{
-deconv_results <- data.frame(CD8T = c(0.1, 0.2), CD4T = c(0.3, 0.4))
-rename_cell_types(deconv_results)
 }
