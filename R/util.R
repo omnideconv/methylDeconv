@@ -172,7 +172,7 @@ init_python <- function(){
   }
   
   if (!(reticulate::condaenv_exists("r-methyldeconv"))) {
-    message("Create conda evironment 'r-methyldeconv' for meth_atlas...")
+    message("Create conda evironment 'r-methyldeconv' for MethAtlas...")
     reticulate::conda_create("r-methyldeconv", python_version = "3.10")
     message("Install all python dependencies...")
     reticulate::py_install(packages = c("numpy", "pandas", "scipy", "matplotlib") , envname = "r-methyldeconv",  method = "conda", pip = T)
