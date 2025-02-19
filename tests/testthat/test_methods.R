@@ -68,3 +68,30 @@ test_that("MethAtlas works", {
     expected = check_result, tolerance = 1e-3
   )
 })
+
+test_that("Main function deconvolute works (tested on epidish)", {
+  res <- methylDeconv::deconvolute(methyl_set = methyl_set, method = 'epidish')
+  res <- res |> dplyr::select(order(colnames(res)))
+  check_result <- read.csv("test_results/epidish.csv",
+                                     row.names = 1,
+                                     check.names = FALSE
+  ) 
+  check_result <- check_result |> dplyr::select(order(colnames(check_result)))
+  expect_equal(
+    info = "deconvolution result is correct", object = res,
+    expected = check_result, tolerance = 1e-3
+  )
+})
+
+test_that("Running multiple methods works", {
+  res <- methylDeconv::deconvolute_combined(methyl_set = methyl_set, 
+                                            methods = c('epidish','houseman'), 
+                                            array = '450k')
+  
+  methods <- unique(res$method)
+  expect_equal(
+    object = methods, expected = c('epidish','houseman','aggregated'),
+    info = 'Correct method outputs and aggregated outputs are present.'
+  )
+})
+

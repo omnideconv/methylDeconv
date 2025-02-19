@@ -121,7 +121,7 @@ deconvolute_combined <- function(methyl_set, array = c('450k','EPIC'), methods, 
   combined_results <- method_results |>
     dplyr::group_by(sample, celltype) |>
     dplyr::summarize(value = mean(value), .groups = 'drop') |>
-    mutate(method = 'aggregated')
+    dplyr::mutate(method = 'aggregated')
   
   full_results <- bind_rows(method_results, combined_results)
 
