@@ -6,35 +6,49 @@
 # See https://github.com/r-lib/actions/tree/master/examples#readme for
 # additional example workflows available for the R community.
 
-name: R
+name: R_CMD_Check
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [main, master]
   pull_request:
-    branches: [ "master" ]
+    branches: [main, master]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: macos-latest
+  R_CMD_Check:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r-version }})
+    
     strategy:
       matrix:
-        r-version: ['3.6.3', '4.1.1']
+        config:
+          - { os: macOS-latest, r-version: "release" }
+          - { os: windows-latest, r-version: "release" }
+          - { os: ubuntu-22.04, r-version: "release" }
+          - { os: ubuntu-latest, r-version: "release"}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      
       - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+        uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.r-version }}
+          use-public-rspm: true
+          
       - name: Install dependencies
-        run: |
-          install.packages(c("remotes", "rcmdcheck"))
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
-        shell: Rscript {0}
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"all"' # do not install suggests
+          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
+          needs: check
+          error-on: '"error"'
+        
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          error-on: '"error"'
