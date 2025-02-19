@@ -29,9 +29,9 @@ jobs:
           
       - name: Manually install newer version of preprocessCore
         run: |
-          git clone https://github.com/bmbolstad/preprocessCore.git
-          cd preprocessCore
-          R CMD INSTALL --configure-args="--disable-threading"  
+          Rscript -e "pak::pkg_install('BiocManager')"
+          Rscript -e "BiocManager::install('preprocessCor', configure.args = c(preprocessCore = '--disable-threading'), force= TRUE, update=TRUE, type = 'source')"
+          
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
