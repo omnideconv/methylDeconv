@@ -30,13 +30,13 @@ jobs:
       - name: Manually install newer version of preprocessCore
         run: |
           Rscript -e "pak::pkg_install('BiocManager')"
-          Rscript -e "BiocManager::install('preprocessCor', configure.args = c(preprocessCore = '--disable-threading'), force= TRUE, update=TRUE, type = 'source')"
+          Rscript -e "BiocManager::install('preprocessCore', configure.args = c(preprocessCore = '--disable-threading'), force= TRUE, update=TRUE, type = 'source')"
           
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
-          python-version: 3.10
+          python-version: 3.8
           
       - run: |
           conda info
