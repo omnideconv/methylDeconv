@@ -14,11 +14,11 @@
 #' @param verbose Should the function be verbose?
 #' @param lessThanOne Should the predictions be constrained to exactly one, in minfi default is FALSE, now you can select the option
 #' @param cellCounts If cell counts are available (CBC, of flow sort) add a vector of lenght equal to the samples being deconvolved
-#' @param ... Other arguments for preprocessquantile or other normalizations
+#' @param ... Other arguments for preprocessQuantile or other normalizations
 #'
 #' @export
 #'
-run_flowsortedblood <- function(methyl_set, array = c('450k','EPIC'),
+run_houseman <- function(methyl_set, array = c('450k','EPIC'),
                                 compositeCellType=c('Blood','CordBloodCombined','CordBlood','CordBloodNorway','CordTissueAndBlood','DLPFC'),
                                 processMethod = 'preprocessQuantile', probeSelect = c('IDOL','both','any'), cellTypes =c('CD8T','CD4T','NK','Bcell','Mono','Neu'),
                                 referencePlatform = c('IlluminaHumanMethylationEPIC','IlluminaHumanMethylation450k','IlluminaHumanMethylation27k'),

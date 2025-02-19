@@ -12,7 +12,7 @@ deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{EpiDISH}, \code{FlowSorted}, \code{MethylCC}, \code{MethylResolver}, \code{MethAtlas}
+\code{EpiDISH}, \code{Houseman}, \code{MethylCC}, \code{MethylResolver}, \code{MethAtlas}
 }
 \details{
 The object is a named vector. The names correspond to the display name of the method,

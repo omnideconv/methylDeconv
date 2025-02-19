@@ -33,9 +33,9 @@ test_that("methylCC works", {
   )
 })
 
-test_that("FlowSorted works", {
-  flowSorted_res <- methylDeconv::run_flowsortedblood(methyl_set = methyl_set)$prop
-  check_result <- as.matrix(read.csv("test_results/flowsorted.csv",
+test_that("Houseman works", {
+  flowSorted_res <- methylDeconv::run_houseman(methyl_set = methyl_set)$prop
+  check_result <- as.matrix(read.csv("test_results/houseman.csv",
                                      row.names = 1,
                                      check.names = FALSE
   ))
@@ -58,8 +58,8 @@ test_that("MethylResolver works", {
 })
 
 test_that("MethAtlas works", {
-  meth_atlas_res <- methylDeconv::run_meth_atlas(beta_matrix = beta_matrix)
-  check_result <- as.matrix(read.csv("test_results/meth_atlas.csv",
+  meth_atlas_res <- methylDeconv::run_methatlas(beta_matrix = beta_matrix)
+  check_result <- as.matrix(read.csv("test_results/methatlas.csv",
                                      row.names = 1,
                                      check.names = FALSE
   ))

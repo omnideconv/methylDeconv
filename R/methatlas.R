@@ -1,4 +1,4 @@
-#' run meth_atlas
+#' run MethAtlas
 #'
 #' @param methyl_set A minfi MethylSet
 #' @param reference_atlas Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
@@ -9,7 +9,7 @@
 #' 
 #' @export
 #'
-run_meth_atlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL, use_epic_reference=FALSE){
+run_methatlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL, use_epic_reference=FALSE){
   # check if python is installed, else install
   init_python()
   
