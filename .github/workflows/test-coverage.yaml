@@ -32,17 +32,10 @@ jobs:
           Rscript -e "pak::pkg_install('BiocManager')"
           Rscript -e "BiocManager::install('preprocessCore', configure.args = c(preprocessCore = '--disable-threading'), force= TRUE, update=TRUE, type = 'source')"
           
-
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           python-version: 3.8
-          
-      - run: |
-          conda info
-          conda list
-          conda config --show-sources
-          conda config --show
           
       - name: Test coverage
         run: |
@@ -57,11 +50,11 @@ jobs:
       - uses: codecov/codecov-action@v4
         with:
           # Fail if error if not on PR, or if on PR and token is given
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.GITHUB_TOKEN }}
           file: ./cobertura.xml
           plugin: noop
           disable_search: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show testthat output
         if: always()
