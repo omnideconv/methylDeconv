@@ -26,7 +26,24 @@ jobs:
         with:
           extra-packages: any::covr, any::xml2
           needs: coverage
+          
+      - name: Manually install newer version of preprocessCore
+        run: |
+          git clone https://github.com/bmbolstad/preprocessCore.git
+          cd preprocessCore
+          R CMD INSTALL --configure-args="--disable-threading"  
 
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          python-version: 3.10
+          
+      - run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+          
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(
