@@ -7,9 +7,9 @@
 check_input(meth, unmeth)
 }
 \arguments{
-\item{meth}{}
+\item{meth}{matrix with quantities of methylated sites}
 
-\item{unmeth}{}
+\item{unmeth}{matrix with quantities of methylated sites}
 }
 \description{
 Check input matrices

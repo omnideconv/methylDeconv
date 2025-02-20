@@ -18,6 +18,9 @@
 #' @param demo TRUE/FALSE. Should the function be used in demo mode to shorten examples in package. Defaults to FALSE.
 #' @param seed fixed seed to account for RNG influences
 #'
+#' @import FlowSorted.Blood.450k  
+#' @import FlowSorted.Blood.EPIC
+#'
 #' @return A object of the class estimatecc that contains information about the cell composition estimation (in the summary slot) and the cell composition estimates themselves (in the cell_counts slot).
 #' @export
 #'
@@ -30,8 +33,6 @@ run_methylcc <- function(methyl_set, array = c('450k','EPIC'),
                          seed = 1){
   set.seed(seed)
   options(matrixStats.useNames.NA = "deprecated")
-  require(FlowSorted.Blood.450k)
-  require(FlowSorted.Blood.EPIC)
   
   check_input_mset(methyl_set)
   

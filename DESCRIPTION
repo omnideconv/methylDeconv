@@ -11,27 +11,25 @@ URL: https://github.com/biomedbigdata/methylDeconv,
     http://omnideconv.org/methylDeconv/
 BugReports: https://github.com/biomedbigdata/methylDeconv/issues
 Depends:
-    R (>= 2.10)
+    R (>= 3.6), FlowSorted.Blood.450k
 Imports:
     EpiDISH,
     FlowSorted.Blood.EPIC,
-    FlowSorted.Blood.450k,
     ggplot2,
     methylCC,
     minfi,
     reticulate,
     MethylResolver,
-    data.table,
     dplyr,
     tidyr,
-    reshape,
-    tibble
-Suggests: 
-    Biobase,
+    tibble, 
+    cli,
     IlluminaHumanMethylationEPICanno.ilm10b4.hg19,
     IlluminaHumanMethylationEPICmanifest,
     IlluminaHumanMethylation450kanno.ilmn12.hg19,
     IlluminaHumanMethylation450kmanifest,
+Suggests: 
+    Biobase,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,

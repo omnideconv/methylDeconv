@@ -1,6 +1,6 @@
 #' run MethAtlas
 #'
-#' @param methyl_set A minfi MethylSet
+#' @param beta_matrix a beta matrix with CpGs in rows and samples in columns
 #' @param reference_atlas Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
 #'                        The default (tissue-wide) reference file is stored in 'inst/reference_atlas.csv'. 
 #' @param temp_dir Path to directory where the beta matrix will be saved as a csv file.

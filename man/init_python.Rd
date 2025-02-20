@@ -7,7 +7,7 @@
 init_python()
 }
 \description{
-Sets up a Miniconda environment with Python 3.10 for the 'r-methyldeconv' package.
+Sets up a Miniconda environment with Python 3.8 for the 'r-methyldeconv' package.
 Installs Miniconda if not present, creates the 'r-methyldeconv' Conda environment
 if it doesn't exist, and installs required Python packages (\code{numpy}, \code{pandas},
 \code{scipy}, \code{matplotlib}).
@@ -15,7 +15,7 @@ if it doesn't exist, and installs required Python packages (\code{numpy}, \code{
 \details{
 \itemize{
 \item Installs Miniconda if missing.
-\item Creates 'r-methyldeconv' environment with Python 3.10 and installs dependencies.
+\item Creates 'r-methyldeconv' environment with Python 3.8 and installs dependencies.
 \item Activates the environment and displays Python configuration.
 }
 }

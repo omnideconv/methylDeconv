@@ -51,8 +51,6 @@ run_houseman(
 \item{cellCounts}{If cell counts are available (CBC, of flow sort) add a vector of lenght equal to the samples being deconvolved}
 
 \item{...}{Other arguments for preprocessQuantile or other normalizations}
-
-\item{returnAll}{Should the composition table and the normalized user supplied data be return? Default is False.}
 }
 \description{
 Run the improved Houseman method

@@ -14,6 +14,8 @@ run_epidish(
 )
 }
 \arguments{
+\item{beta_matrix}{a beta matrix with CpGs in rows and samples in columns}
+
 \item{mode}{Choice of a reference-based method ('RPC','CBS','CP')}
 
 \item{reference}{A matrix of reference 'centroids', i.e. representative molecular profiles,
@@ -34,8 +36,6 @@ will be automatically returned.}
 normalization constraint. The default is 'inequality' (i.e sum of weights
 adds to a number less or equal than 1), which was implemented in
 Houseman et al (2012).}
-
-\item{methyl_set}{A minfi MethylSet}
 }
 \value{
 CP-mode

@@ -7,7 +7,7 @@
 create_beta(methyl_set)
 }
 \arguments{
-\item{methyl_set}{}
+\item{methyl_set}{minfi methylSet}
 }
 \value{
 beta matrix

@@ -20,8 +20,8 @@ check_input_beta <- function(beta_matrix){
 
 #' Check input matrices
 #'
-#' @param meth 
-#' @param unmeth 
+#' @param meth matrix with quantities of methylated sites
+#' @param unmeth matrix with quantities of methylated sites
 #'
 check_input <- function(meth, unmeth){
   if(!all(dim(meth) == dim(unmeth))){
@@ -37,7 +37,7 @@ check_input <- function(meth, unmeth){
 
 #' Check input methylSet
 #'
-#' @param methyl_set
+#' @param methyl_set minfi methylSet
 #'
 #'
 check_input_mset <- function(methyl_set){
@@ -52,7 +52,7 @@ check_input_mset <- function(methyl_set){
 
 #' Create beta matrix from a methylset matrices
 #'
-#' @param methyl_set 
+#' @param methyl_set minfi methylSet
 #'
 #' @return beta matrix
 #'
@@ -146,14 +146,14 @@ rename_cell_types <- function(input_celltypes){
 
 #' Initialize Python Environment with Miniconda
 #'
-#' Sets up a Miniconda environment with Python 3.10 for the 'r-methyldeconv' package.
+#' Sets up a Miniconda environment with Python 3.8 for the 'r-methyldeconv' package.
 #' Installs Miniconda if not present, creates the 'r-methyldeconv' Conda environment 
 #' if it doesn't exist, and installs required Python packages (`numpy`, `pandas`, 
 #' `scipy`, `matplotlib`).
 #'
 #' @details 
 #' - Installs Miniconda if missing.
-#' - Creates 'r-methyldeconv' environment with Python 3.10 and installs dependencies.
+#' - Creates 'r-methyldeconv' environment with Python 3.8 and installs dependencies.
 #' - Activates the environment and displays Python configuration.
 #'
 #' @import reticulate

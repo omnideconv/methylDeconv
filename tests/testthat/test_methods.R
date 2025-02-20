@@ -6,7 +6,7 @@ methyl_set <- minfiData::MsetEx
 ratio_set <- minfi::ratioConvert(methyl_set)
 beta_matrix <- minfi::getBeta(ratio_set)
 
-# write.csv()
+
 
 test_that("EpiDISH works", {
   epidish_res <- methylDeconv::run_epidish(beta_matrix = beta_matrix, mode='RPC')$estF
@@ -75,7 +75,7 @@ test_that("Main function deconvolute works (tested on epidish)", {
   check_result <- read.csv("test_results/epidish.csv",
                                      row.names = 1,
                                      check.names = FALSE
-  ) 
+  )
   check_result <- check_result |> dplyr::select(order(colnames(check_result)))
   expect_equal(
     info = "deconvolution result is correct", object = res,
@@ -84,10 +84,10 @@ test_that("Main function deconvolute works (tested on epidish)", {
 })
 
 test_that("Running multiple methods works", {
-  res <- methylDeconv::deconvolute_combined(methyl_set = methyl_set, 
-                                            methods = c('epidish','houseman'), 
+  res <- methylDeconv::deconvolute_combined(methyl_set = methyl_set,
+                                            methods = c('epidish','houseman'),
                                             array = '450k')
-  
+
   methods <- unique(res$method)
   expect_equal(
     object = methods, expected = c('epidish','houseman','aggregated'),

@@ -1,6 +1,6 @@
 #' run EpiDISH
 #'
-#' @param methyl_set A minfi MethylSet
+#' @param beta_matrix a beta matrix with CpGs in rows and samples in columns
 #' @param mode Choice of a reference-based method ('RPC','CBS','CP')
 #' @param reference A matrix of reference 'centroids', i.e. representative molecular profiles, 
 #' for a number of cell subtypes. rows label molecular features (e.g. CpGs,...) 

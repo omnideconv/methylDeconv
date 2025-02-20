@@ -1,6 +1,6 @@
 #' Run MethylResolver
 #'
-#' @param methyl_set A minfi MethylSet
+#' @param beta_matrix a beta matrix with CpGs in rows and samples in columns
 #' @param doPar Whether to use parallel processing to speed up the deconvolution computation if many samples are present. Default is FALSE. 
 #' @param numCores Number of cores used for parallel processing to speed up the deconvolution of many samples. Requires doPar = TRUE. Default is 1. numCores = "auto" is max number of cores available minus one. 
 #' @param alpha Set the alpha parameter for LTS deconvolution. This is the fraction of optimal CpGs from the signature matrix which are used for deconvolution. Must be between 0 and 1. Users can specify a vector or a single number. If a vector is specified, a grid search of the values is conducted and the alpha value that results in the lowest RMSE between the original and reconstructed mixture is selected. Default is seq(0.5,0.9,by = 0.05). 

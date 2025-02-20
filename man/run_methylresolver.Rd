@@ -15,6 +15,8 @@ run_methylresolver(
 )
 }
 \arguments{
+\item{beta_matrix}{a beta matrix with CpGs in rows and samples in columns}
+
 \item{doPar}{Whether to use parallel processing to speed up the deconvolution computation if many samples are present. Default is FALSE.}
 
 \item{numCores}{Number of cores used for parallel processing to speed up the deconvolution of many samples. Requires doPar = TRUE. Default is 1. numCores = "auto" is max number of cores available minus one.}
@@ -26,8 +28,6 @@ run_methylresolver(
 \item{purityModel}{Random Forest model to predict mixture purity (unknown content) which allows the calculation of absolute cell type fractions. Required if absolute is TRUE. Default is our RF model trained on the consensus purity estimate (CPE) using TCGA data.}
 
 \item{seed}{fixed seed to account for RNG influences}
-
-\item{methyl_set}{A minfi MethylSet}
 }
 \description{
 Run MethylResolver

@@ -7,7 +7,7 @@
 check_input_mset(methyl_set)
 }
 \arguments{
-\item{methyl_set}{}
+\item{methyl_set}{minfi methylSet}
 }
 \description{
 Check input methylSet

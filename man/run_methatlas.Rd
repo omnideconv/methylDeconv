@@ -13,6 +13,8 @@ run_methatlas(
 )
 }
 \arguments{
+\item{beta_matrix}{a beta matrix with CpGs in rows and samples in columns}
+
 \item{reference_atlas}{Path to a csv file that saves a reference matrix with CpGs as rows and cell types as columns.
 The default (tissue-wide) reference file is stored in 'inst/reference_atlas.csv'.}
 
@@ -21,8 +23,6 @@ The default (tissue-wide) reference file is stored in 'inst/reference_atlas.csv'
 \item{out_dir}{Path to output directory. Output will be a csv file and a png representing the cell type fractions.}
 
 \item{use_epic_reference}{The MethAtlas has a whole-tissue reference or a immunecell-specific reference that is optimized for EPIC arrays (which is a subset of the whole-tissue reference)}
-
-\item{methyl_set}{A minfi MethylSet}
 }
 \description{
 run MethAtlas

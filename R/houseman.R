@@ -9,12 +9,13 @@
 #' @param referencePlatform The platform for the reference dataset; options include c("IlluminaHumanMethylation450k", "IlluminaHumanMethylationEPIC" (default), "IlluminaHumanMethylation27k"). If the input rgSet belongs to another platform, it will be converted using minfi function convertArray. Should not be changed by the user.
 #' @param referenceset It is NULL by default. A custom reference RGChannelSet object (in quotes) if it is not a package installed. This option also allows the user to perform the deconvolution in closed computing clusters without internet access to ExperimentHub. For that download and save the reference and input the resulting object here. If using an installed reference package set to NULL. 
 #' @param CustomCpGs a custom vector of probe names for cell deconvolution. For custom lists it should be a vector object (no quotes).
-#' @param returnAll Should the composition table and the normalized user supplied data be return? Default is False.
 #' @param meanPlot Whether to plots the average DNA methylation across the cell-type discriminating probes within the mixed and sorted samples.
 #' @param verbose Should the function be verbose?
 #' @param lessThanOne Should the predictions be constrained to exactly one, in minfi default is FALSE, now you can select the option
 #' @param cellCounts If cell counts are available (CBC, of flow sort) add a vector of lenght equal to the samples being deconvolved
 #' @param ... Other arguments for preprocessQuantile or other normalizations
+#'
+#' @import FlowSorted.Blood.450k
 #'
 #' @export
 #'
@@ -46,7 +47,6 @@ run_houseman <- function(methyl_set, array = c('450k','EPIC'),
   
   
   if(array == '450k'){
-    require(FlowSorted.Blood.450k)
     minfi::`annotation`(methyl_set) <- c('array'='IlluminaHumanMethylation450k',
                                          'annotation'='ilmn12.hg19')
   }else if(array == 'EPIC'){
