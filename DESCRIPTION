@@ -1,15 +1,14 @@
 Package: methylDeconv
 Title: Unified access to DNA methylation based cell-type deconvolution
     methods
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = c("aut", "cre"))
 Description: runs several cell type deconvolution algorithms.
-License: MIT + file LICENSE
-URL: https://github.com/biomedbigdata/methylDeconv,
-    http://biomedical-big-data.de/methylDeconv/,
-    http://omnideconv.org/methylDeconv/
-BugReports: https://github.com/biomedbigdata/methylDeconv/issues
+License: GPL (>= 3)
+URL: https://github.com/omnideconv/methylDeconv,
+     http://omnideconv.org/methylDeconv/
+BugReports: https://github.com/omnideconv/methylDeconv/issues
 Depends:
     R (>= 3.6), FlowSorted.Blood.450k
 Imports:
