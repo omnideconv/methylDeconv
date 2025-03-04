@@ -1,12 +1,12 @@
-# methylDeconv
+# methyldeconv
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/omnideconv/methylDeconv/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/omnideconv/methylDeconv/actions/workflows/R-CMD-check.yml) [![Codecov test coverage](https://codecov.io/gh/omnideconv/methylDeconv/branch/main/graph/badge.svg)](https://app.codecov.io/gh/omnideconv/methylDeconv?branch=main)
+[![R-CMD-check](https://github.com/omnideconv/methyldeconv/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/omnideconv/methyldeconv/actions/workflows/R-CMD-check.yml) [![Codecov test coverage](https://codecov.io/gh/omnideconv/methyldeconv/branch/main/graph/badge.svg)](https://app.codecov.io/gh/omnideconv/methyldeconv?branch=main)
 
 <!-- badges: end -->
 
-Ever wanted to apply cell-type deconvolution on your DNA methylation data but could not decide which method to use? Here is **methylDeconv** to help your needs!
+Ever wanted to apply cell-type deconvolution on your DNA methylation data but could not decide which method to use? Here is **methyldeconv** to help your needs!
 
 This package integrates unified access to five reference-based cell-type deconvolution methods that can directly be applied to Illumina array data (450k, EPIC arrays) or bisulfite sequencing data (RRBS, WGBS).
 
@@ -22,23 +22,23 @@ The included methods are:
 
 ## Installation
 
-You can install methylDeconv from [GitHub](https://github.com/), we recommend to use the [pak](https://github.com/r-lib/pak) package manager:
+You can install methyldeconv from [GitHub](https://github.com/), we recommend to use the [pak](https://github.com/r-lib/pak) package manager:
 
 ``` r
 # install the `pak` package manager
 install.packages("pak")
 
-pak::pkg_install("omnideconv/methylDeconv")
+pak::pkg_install("omnideconv/methyldeconv")
 ```
 
 ## Example
 
-methylDeconv can either be applied directly to a methylSet from the minfi package, or you can apply each method separately on a beta matrix with Illumina CpG IDs.
+methyldeconv can either be applied directly to a methylSet from the minfi package, or you can apply each method separately on a beta matrix with Illumina CpG IDs.
 
 Both cases will be demonstrated here using example data from minfi:
 
 ``` r
-library(methylDeconv)
+library(methyldeconv)
 library(minfi)
 library(minfiData)
 
@@ -49,13 +49,13 @@ beta_matrix <- minfi::getBeta(ratio_set)
 
 
 # run EpiDISH for deconvolution of example data
-result <- methylDeconv::deconvolute(methyl_set = methyl_set, method = 'epidish')
+result <- methyldeconv::deconvolute(methyl_set = methyl_set, method = 'epidish')
 
-result_raw <- methylDeconv::run_epidish(beta_matrix = beta_matrix, mode='RPC')
+result_raw <- methyldeconv::run_epidish(beta_matrix = beta_matrix, mode='RPC')
 
 
 # you can also run multiple methods at the same time and get their results + aggregated results:
-result_multiple <- methylDeconv::deconvolute_combined(methyl_set = methyl_set,
+result_multiple <- methyldeconv::deconvolute_combined(methyl_set = methyl_set,
                                                       methods = c('epidish','houseman'),
                                                       array = '450k')
 ```

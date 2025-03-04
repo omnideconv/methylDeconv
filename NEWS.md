@@ -1,4 +1,8 @@
 
+# methyldeconv 0.0.3
+
+* rebranded methylDeconv to methyldeconv
+
 # methylDeconv 0.0.2
 
 * First version of package.
