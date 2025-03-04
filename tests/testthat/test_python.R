@@ -1,4 +1,4 @@
-library(methylDeconv)
+library(methyldeconv)
 
 methyldeconv::init_python()
 
