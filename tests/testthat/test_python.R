@@ -1,6 +1,6 @@
 library(methylDeconv)
 
-methylDeconv::init_python()
+methyldeconv::init_python()
 
 test_that("Python environment creation works", {
   

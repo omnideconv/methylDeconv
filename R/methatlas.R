@@ -9,7 +9,7 @@
 #' 
 #' @export
 #'
-run_methatlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methylDeconv"), temp_dir = NULL, out_dir = NULL, use_epic_reference=FALSE){
+run_methatlas <- function(beta_matrix, reference_atlas = system.file("reference_atlas.csv", package = "methyldeconv"), temp_dir = NULL, out_dir = NULL, use_epic_reference=FALSE){
   # check if python is installed, else install
   init_python()
   
@@ -35,11 +35,11 @@ run_methatlas <- function(beta_matrix, reference_atlas = system.file("reference_
   
   # subset reference if applicable
   if(use_epic_reference){
-    reference_atlas <- system.file("reference_atlas_epic.csv", package = "methylDeconv")
+    reference_atlas <- system.file("reference_atlas_epic.csv", package = "methyldeconv")
   }
   
   # run meth_atlas
-  system(paste("python", system.file("deconvolve.py", package = "methylDeconv")," -a", reference_atlas, beta_path, "--out", out_dir))
+  system(paste("python", system.file("deconvolve.py", package = "methyldeconv")," -a", reference_atlas, beta_path, "--out", out_dir))
   
   # read the results to provide as data frame
   as.matrix(t(read.csv(paste0(out_dir, "/beta_deconv_output.csv"),
